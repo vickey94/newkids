@@ -26,7 +26,6 @@ Page({
         // console.log(res.authSetting);
         if (res.authSetting['scope.userInfo']) {
           console.log('用户已授权')
-
           wx.checkSession({
             success() {
               console.log('session_key 未过期')

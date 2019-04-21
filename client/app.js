@@ -17,7 +17,6 @@ App({
   
     if (!util.isLogged(that)) {
       wx.hideLoading();
-      console.log('未登录');
       wx.reLaunch({
         url: 'pages/login/login',
       })
@@ -25,7 +24,7 @@ App({
       console.log(that.globalData.userInfo)
       wx.hideLoading();
       wx.reLaunch({
-        url: 'pages/user/user',
+        url: 'pages/index/index',
       })
     }
 
