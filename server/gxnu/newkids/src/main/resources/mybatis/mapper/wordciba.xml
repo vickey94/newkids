@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gxnu.newkids.dao.WordsDao">
+
+    <resultMap id="WordcibaMap" type="gxnu.newkids.entity.Wordciba">
+        <result column="w_id" property="w_id"/>
+        <result column="word" property="word"/>
+        <result column="exchange" property="exchange"/>
+        <result column="voice" property="voice"/>
+        <result column="w_times" property="w_times"/>
+    </resultMap>
+
+    <select id="getWordcibaByWord" parameterType="String" resultMap="WordcibaMap">
+       select * from t_words where word = #{word}
+    </select>
+</mapper>

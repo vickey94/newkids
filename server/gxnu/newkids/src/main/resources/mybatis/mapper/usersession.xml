@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gxnu.newkids.dao.UserDao">
+
+    <select id="getUserSession" parameterType="String" resultType="gxnu.newkids.entity.UserSession">
+       select * from t_usersession where open_id = #{open_id}
+    </select>
+
+    <insert id="insertUserSession" parameterType="gxnu.newkids.entity.UserSession">
+       insert into t_usersession (open_id,uuid,skey,create_time,last_visit_time,session_key,user_info)
+       values (#{open_id},#{uuid},#{skey},#{create_time},#{last_visit_time},#{session_key},#{user_info})
+       ON DUPLICATE KEY UPDATE
+       session_key = values (session_key),user_info = values (user_info),last_visit_time = values (last_visit_time)
+    </insert>
+
+    <!--
+    <update id="updateUserSession" parameterType="gxnu.newkids.entity.UserSession">
+        update t_usersession
+        set session_key = #{session_key},user_info = #{user_info}
+        where open_id = #{open_id}
+    </update> -->
+</mapper>
