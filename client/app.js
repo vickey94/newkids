@@ -5,20 +5,31 @@ var config = require('config.js')
 App({
   onLaunch: function () {
 
+    /**
+     * 登录流程
+     * --引导页
+     * 获取登录态，如果
+     */
+
     wx.showLoading({ mask:true})
 
-   //未登录
-    if (!util.isLogged(this)){
+    var that = this;
+  
+    if (!util.isLogged(that)) {
       wx.hideLoading();
       console.log('未登录');
       wx.reLaunch({
         url: 'pages/login/login',
       })
-    }else{
-      console.log(this.globalData.userInfo)
+    } else {
+      console.log(that.globalData.userInfo)
       wx.hideLoading();
+      wx.reLaunch({
+        url: 'pages/user/user',
+      })
     }
-  
+
+
   },
   globalData: {
     userInfo: null

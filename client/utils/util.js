@@ -15,8 +15,6 @@ const formatNumber = n => {
 }
 
 
-
-
 /*登录验证流程
 先检查，app.globalData.userInfo ,如果不存在，则
 然后检查Storage里的登录状态
@@ -32,6 +30,7 @@ const isLogged = app => {
   } else
     return false;
 }
+
 
 module.exports = {
   formatTime,

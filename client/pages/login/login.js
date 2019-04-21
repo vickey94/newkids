@@ -9,7 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+   // hasUserInfo: false,
   },
 
   /**
@@ -35,7 +35,6 @@ Page({
 
   bingGetUserInfo: function (e) {
     console.log(e.detail);
-
     wx.showLoading({
       title: '登录中！',
       mask: true,
@@ -43,9 +42,8 @@ Page({
 
     wx.login({
       success: res => {
-      //  console.log(config.service.loginUrl)
+        //  console.log(config.service.loginUrl)
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        
         wx.request({
           url: config.service.loginUrl, // 仅为示例，并非真实的接口地址
           data: {
@@ -57,10 +55,10 @@ Page({
           },
           method: 'GET',
           success(res) {
-         //   console.log(res.data)
-            if(res.data.status == 1){
-              wx.setStorageSync('userInfo', res.data.userInfo );
-              app.globalData.userInfo = res.data.userInfo ;
+            //   console.log(res.data)
+            if (res.data.status == 1) {
+              wx.setStorageSync('userInfo', res.data.userInfo);
+              app.globalData.userInfo = res.data.userInfo;
 
               wx.reLaunch({
                 url: '../index/index',
@@ -83,6 +81,8 @@ Page({
       }
     })
   },
+
+
 
   /**
    * 生命周期函数--监听页面隐藏
