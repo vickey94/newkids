@@ -4,6 +4,8 @@ var config = {
     host,
     // 登录地址，用于建立会话
     loginUrl: `${host}/login/valid`,
+    //访问
+    visitUrl: `${host}/login/visit`,
     }
 }
 

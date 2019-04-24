@@ -27,4 +27,16 @@ public class login {
 
         return map;
     }
+
+    //用户访问小程序
+    @RequestMapping(value = {"/visit"}, method = RequestMethod.GET)
+    public Map loginVisit(@RequestParam String open_id)
+    {
+
+        logger.info("用户访问,{}",open_id);
+
+        Map map = loginService.visit(open_id);
+
+        return map;
+    }
 }

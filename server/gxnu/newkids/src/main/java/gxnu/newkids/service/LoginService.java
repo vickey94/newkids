@@ -1,6 +1,7 @@
 package gxnu.newkids.service;
 
 
+import com.alibaba.fastjson.JSON;
 import gxnu.newkids.WXMP;
 import gxnu.newkids.api.test;
 import gxnu.newkids.dao.UserDao;
@@ -57,6 +58,7 @@ public class LoginService {
 
         //解析相应内容（转换成json对象）
         JSONObject json = JSONObject.fromObject(sr);
+
         //获取会话密钥（session_key）
         String session_key = json.get("session_key").toString();
         //用户的唯一标识（openid）
@@ -105,6 +107,19 @@ public class LoginService {
         map.put("status", 0);
         map.put("msg", "解密失败");
 
+        return map;
+    }
+
+    public Map visit(String open_id){
+        Map map = new HashMap();
+        UserSession userSession = new UserSession();
+        userSession.setOpen_id(open_id);
+        userSession.setLast_visit_time(new Timestamp(System.currentTimeMillis()));
+
+        userDao.userVisit(userSession);
+
+        map.put("status", 0);
+        map.put("msg", "访问失败");
         return map;
     }
 

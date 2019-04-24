@@ -16,7 +16,6 @@ Page({
    */
   onLoad: function (options) {
     wx.showLoading({
-     
       mask: true,
     })
     var loginurl = '../login/login';

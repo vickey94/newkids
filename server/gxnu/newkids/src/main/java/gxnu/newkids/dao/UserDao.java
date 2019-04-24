@@ -9,4 +9,6 @@ public interface UserDao {
     void insertUserSession(UserSession userSession);
 
     void updateUserSession(UserSession userSession);
+
+    void userVisit(UserSession userSession);
 }

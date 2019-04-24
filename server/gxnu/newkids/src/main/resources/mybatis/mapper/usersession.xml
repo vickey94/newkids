@@ -15,6 +15,14 @@
        session_key = values (session_key),user_info = values (user_info),last_visit_time = values (last_visit_time)
     </insert>
 
+
+    <update id = "userVisit" parameterType="gxnu.newkids.entity.UserSession">
+        update t_usersession
+        set last_visit_time = #{last_visit_time }
+        where open_id = #{open_id}
+
+    </update>
+
     <!--
     <update id="updateUserSession" parameterType="gxnu.newkids.entity.UserSession">
         update t_usersession
