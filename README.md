@@ -214,7 +214,7 @@ p_bw_score|float(5,2)|文章单词相关性评分
 |r_logs_id|int(20)|PK NN
 |p_id|int(11)|NN 文章ID
 |open_id|varchar(100)|用户ID
-|r_sorce |tinyint(1)|用户对文章阅读评分1-10分
+|r_score |tinyint(1)|用户对文章阅读评分1-10分
 |r_start_time|timestamp|阅读开始时间
 |r_end_time|timestamp|阅读结束时间
 
@@ -225,7 +225,7 @@ p_bw_score|float(5,2)|文章单词相关性评分
 |w_logs_id|int(20)|PK NN
 |bw_id|int(11)|NN 单词ID
 |open_id|varchar(100)|用户ID
-|w_sorce|tinyint(1)|单词记忆评分,预留字段
+|w_score|tinyint(1)|单词记忆评分,预留字段
 |w_start_time|timestamp|背单词开始时间
 |w_end_time|timestamp|背单词结束时间
 
