@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSON;
 import gxnu.newkids.WXMP;
 import gxnu.newkids.api.test;
 import gxnu.newkids.dao.UserDao;
-import gxnu.newkids.dao.WordsDao;
+import gxnu.newkids.dao.WordDao;
 
 import gxnu.newkids.entity.UserSession;
 import gxnu.newkids.util.AesCbcUtil;
@@ -27,7 +27,7 @@ import java.util.Map;
 @Service
 public class LoginService {
 
-    protected static Logger logger= LoggerFactory.getLogger(test.class);
+    protected static Logger logger= LoggerFactory.getLogger(LoginService.class);
 
     @Resource
     private UserDao userDao;

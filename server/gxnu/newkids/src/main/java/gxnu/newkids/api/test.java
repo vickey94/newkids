@@ -1,7 +1,7 @@
 package gxnu.newkids.api;
 
 
-import gxnu.newkids.dao.WordsDao;
+import gxnu.newkids.dao.WordDao;
 import gxnu.newkids.entity.Wordciba;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ public class test {
 
     protected static Logger logger= LoggerFactory.getLogger(test.class);
     @Resource
-    private WordsDao wordsDao;
+    private WordDao wordDao;
 
 
     @RequestMapping(value = {"/test1","t1"}, method = RequestMethod.GET)
@@ -33,31 +33,5 @@ public class test {
         return "Hello world!";
     }
 
-    @RequestMapping(value = "/ciba", method = RequestMethod.GET)
-    public Wordciba wordsciba()
-    {
 
-        logger.info("ciba");
-
-        Wordciba wciba = wordsDao.getWordcibaByWord("take");
-
-        System.out.println(wciba.toString());
-
-        return  wciba;
-    }
-
-    @RequestMapping(value = "/w", method = RequestMethod.POST)
-    public Wordciba getword(@RequestBody Wordciba wordciba)
-    {
-
-        Map<String, Object> param = new HashMap<>();
-        String s = wordciba.getExchange().toString();
-        logger.info("s");
-        param.put("wcb", wordciba);
-        Wordciba wciba = wordsDao.getWordcibaByWord("take");
-
-        System.out.println(wciba.toString());
-
-        return  wciba;
-    }
 }

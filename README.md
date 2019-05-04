@@ -22,6 +22,16 @@ newkids weixin mini program
 
 返回：success/fail
 
+流程：
+
+  1. 用户设置单词书
+
+  2. 如果已经有未背诵完的单词书，则设置为-1；
+
+  3. 如果单词书已经存在，则设置状态为0，未存在，则插入单词书，设置状态为0；
+  
+  4. 已经背诵完成的单词书状态不变。
+
 2. 返回一组单词
 
 输入：用户open_id,单词书id,单词数量
@@ -259,8 +269,9 @@ p_bw_score|float(5,2)|文章单词相关性评分
 |bw_id|varchar(255)|NN 单词ID
 |open_id|varchar(100)|用户ID
 |w_score|tinyint(1)|单词记忆评分,预留字段
-|w_start_time|timestamp|背单词开始时间
-|w_end_time|timestamp|背单词结束时间
+|w_spend_time|int(255)|背单词时间单位为s
+|w_last_time|timestamp|上一次背诵时间
+
 
 **t_missing**   查询无词表
 

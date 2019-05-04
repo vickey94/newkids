@@ -1,5 +1,6 @@
 package gxnu.newkids.entity;
 
+//t_words  总词汇表，源自BBC 13W单词
 public class Wordciba {
 
     private Integer w_id;

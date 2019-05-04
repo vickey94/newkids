@@ -2,6 +2,7 @@ package gxnu.newkids.entity;
 
 import java.sql.Timestamp;
 
+//t_usersessionm
 public class UserSession {
 
     private String open_id;

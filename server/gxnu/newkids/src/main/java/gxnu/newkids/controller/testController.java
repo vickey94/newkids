@@ -18,7 +18,6 @@ public class testController {
 
         logger.info("访问test Controller");
 
-
         return "Hello world!";
     }
 }

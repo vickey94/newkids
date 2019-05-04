@@ -18,8 +18,9 @@ Page({
    */
   onLoad: function (options) {
    
-    let d = this.data;
- 
+  
+    this.setData({ userInfo: app.globalData.userInfo})
+
 
   },
 
