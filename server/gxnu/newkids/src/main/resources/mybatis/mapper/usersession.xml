@@ -20,7 +20,6 @@
         update t_usersession
         set last_visit_time = #{last_visit_time }
         where open_id = #{open_id}
-
     </update>
 
     <!--
@@ -29,4 +28,13 @@
         set session_key = #{session_key},user_info = #{user_info}
         where open_id = #{open_id}
     </update> -->
+
+    <insert id="userCheck" parameterType="String" >
+        INSERT INTO t_checkhis (open_id,check_time) VALUES (#{open_id},NOW());
+    </insert>
+
+
+    <select id="getUserCheckTimes" parameterType="String" resultType="Integer">
+        SELECT COUNT(*) FROM t_checkhis WHERE open_id = #{open_id};
+    </select>
 </mapper>

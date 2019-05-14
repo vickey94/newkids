@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gxnu.newkids.dao.WordbookDao">
+
+    <resultMap id="WordbookMap" type="gxnu.newkids.entity.Wordbook">
+        <result column="wb_id" property="wb_id"/>
+        <result column="wordbook" property="wordbook"/>
+        <result column="wb_num" property="wb_num"/>
+        <result column="wb_status" property="wb_status"/>
+        <result column="wb_order" property="wb_order"/>
+        <result column="wb_score" property="wb_score"/>
+        <result column="wb_parent_id" property="wb_parent_id"/>
+    </resultMap>
+
+    <resultMap id="UserWbMap" type="gxnu.newkids.entity.UserWb">
+        <result column="u_wb_id" property="u_wb_id"/>
+        <result column="open_id" property="open_id"/>
+        <result column="wb_id" property="wb_id"/>
+        <result column="u_wb_status" property="u_wb_status"/>
+        <result column="u_wb_rate" property="u_wb_rate"/>
+        <result column="u_wb_time" property="u_wb_time"/>
+    </resultMap>
+
+
+<select id="selectUserWb" resultMap="UserWbMap">
+      SELECT * FROM t_user_wb
+       WHERE open_id = #{open_id}
+    <if test="wb_id!=null">
+       AND wb_id= #{wb_id}
+    </if>
+    <if test="u_wb_status!=3">
+       AND u_wb_status = #{u_wb_status};
+    </if>
+    </select>
+
+<update id="updateWbStatus">
+        UPDATE t_user_wb SET u_wb_status = #{u_wb_status} WHERE  open_id =  #{open_id}
+         <if test="wb_id != null">
+             AND wb_id= #{wb_id};
+         </if>
+
+    </update>
+
+<insert id="insertWb" parameterType="gxnu.newkids.entity.UserWb">
+        INSERT INTO t_user_wb (
+	open_id,
+	wb_id,
+	u_wb_status,
+	u_wb_rate,
+	u_wb_time
+)
+VALUES
+	(#{open_id},#{wb_id},#{u_wb_status},#{u_wb_rate},NOW())
+    </insert>
+
+
+
+
+    <select id="selectWb" parameterType="String" resultMap="WordbookMap">
+        SELECT * FROM t_wordbooks  WHERE wb_status = 1
+        <if test="_parameter!=null">
+         AND wb_id = #{wb_id}
+        </if>
+
+        <if test="_parameter==null">
+         ORDER BY wb_order ASC
+        </if>
+    </select>
+
+</mapper>

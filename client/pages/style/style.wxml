@@ -1,0 +1,107 @@
+<!--
+<view class='mask'>
+<view class='box-main'>
+</view>
+</view>
+-->
+
+<view class='circle'>
+  <view class='userAvatar'>
+    <open-data type="userAvatarUrl"></open-data>
+  </view>
+</view>
+
+
+<view class='m2'>
+  <view class='m2_tit'>电话挪车券</view>
+  <view class="coupon-line">
+    <view></view>
+    <view></view>
+  </view>
+</view>
+
+
+<view class="page__bd">
+  <view class="weui-loadmore">
+    <view class="weui-loading"></view>
+    <view class="weui-loadmore__tips">正在加载</view>
+  </view>
+  <view class="weui-loadmore weui-loadmore_line">
+    <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无数据</view>
+  </view>
+  <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+    <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot"></view>
+  </view>
+</view>
+
+<view class="weui-footer">
+  <view class="weui-footer__text">Copyright © 2008-2016 weui.io</view>
+</view>
+
+
+
+<view class="icon_sp_area">
+  <icon type="success" size="23"></icon>
+  <icon type="success_no_circle" size="23"></icon>
+  <icon type="circle" size="23"></icon>
+  <icon type="warn" size="23" color="#F43530"></icon>
+  <icon type="download" size="23"></icon>
+  <icon type="info_circle" size="23"></icon>
+  <icon type="cancel" size="23"></icon>
+  <icon type="search" size="20"></icon>
+</view>
+
+
+<view class="weui-panel">
+  <view class="weui-panel__hd">文字列表附来源</view>
+  <view class="weui-panel__bd">
+    <view class="weui-media-box weui-media-box_text">
+      <view class="weui-media-box__title weui-media-box__title_in-text">标题一</view>
+      <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
+      <view class="weui-media-box__info">
+        <view class="weui-media-box__info__meta">文字来源</view>
+        <view class="weui-media-box__info__meta">时间</view>
+        <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+
+<view class="page__bd">
+  <view class="weui-btn-area">
+    <button type="default" bindtap="open">ActionSheet</button>
+  </view>
+</view>
+
+<view class='i-btn-loading-inner'>123</view>
+
+
+<view class="star-pos" style="display:flex;flex-direction:row;">
+  <view class="stars  {{flag>=1? 'on': ''}}" bindtap="changeColor" data-value='1'></view>
+  <view class="stars  {{flag>=2? 'on': ''}}" bindtap="changeColor" data-value='2'></view>
+  <view class="stars  {{flag>=3? 'on': ''}}" bindtap="changeColor" data-value='3'></view>
+  <view class="stars  {{flag>=4? 'on': ''}}" bindtap="changeColor" data-value='4'></view>
+  <view class="stars  {{flag>=5? 'on': ''}}" bindtap="changeColor" data-value='5'></view>
+</view>
+
+
+<view class='voice'>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</view>
+
+<view class="wifi-box">
+        <view class="wifi-symbol">
+            <view class="wifi-circle first"></view>
+            <view class="wifi-circle second"></view>
+            <view class="wifi-circle third"></view>
+        </view>
+    </view>
+
+
+
+ <view class="sk-rotating-plane"></view>

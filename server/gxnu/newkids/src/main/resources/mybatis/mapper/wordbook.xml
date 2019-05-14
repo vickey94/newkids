@@ -36,7 +36,11 @@
     </select>
 
 <update id="updateWbStatus">
-        UPDATE t_user_wb SET u_wb_status = #{u_wb_status} WHERE  open_id =  #{open_id} AND wb_id= #{wb_id};
+        UPDATE t_user_wb SET u_wb_status = #{u_wb_status} WHERE  open_id =  #{open_id}
+         <if test="wb_id != null">
+             AND wb_id= #{wb_id};
+         </if>
+
     </update>
 
 <insert id="insertWb" parameterType="gxnu.newkids.entity.UserWb">
@@ -55,9 +59,13 @@ VALUES
 
 
     <select id="selectWb" parameterType="String" resultMap="WordbookMap">
-        SELECT * FROM t_wordbooks
-        <if test="_parameter!=null">
-        WHERE wb_id = #{wb_id}
+        SELECT * FROM t_wordbooks  WHERE wb_status = 1
+        <if test="_parameter != null">
+         AND wb_id = #{wb_id}
+        </if>
+
+        <if test="_parameter==null">
+         ORDER BY wb_order ASC
         </if>
     </select>
 

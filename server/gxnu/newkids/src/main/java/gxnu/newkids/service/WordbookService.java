@@ -20,27 +20,49 @@ public class WordbookService {
     @Resource
     private WordbookDao wordbookDao;
 
-    public Map getAllWb(String wb_id){
+    public Map getAllWb(){
 
         Map map = new HashMap();
 
         map.put("status", 1);
 
-        List<Wordbook> wb_list = wordbookDao.selectWb(wb_id);
+        List<Wordbook> wb_list = wordbookDao.selectWb(null);
 
-        map.put("wbs",wb_list);
+       map.put("res",wb_list);
 
         return map;
     }
 
-    public Map getWbByOpen_id(String open_id){
+    public Map getUserStudy(String open_id){
 
         Map map = new HashMap();
-
+        List<Wordbook> wb_list = wordbookDao.selectWb(null);
         List<UserWb> userWbs = wordbookDao.selectUserWb(open_id,null,3);
 
-        map.put("userWbs",userWbs);
+        UserWb userWb = null;
+        for(int i = 0 ; i < userWbs.size();i++ ){
+            if(userWbs.get(i).getU_wb_status() == 0){
+                userWb = userWbs.get(i);
+                break;
+            }
+        }
 
+        int wordsNum = 0;
+
+        int wb_size = wb_list.size();
+        for(int i = 0 ; i <wb_size;i++ ){
+            if(userWb.getWb_id().equals(wb_list.get(i).getWb_id())){
+                wordsNum = wb_list.get(i).getWb_num();
+                break;
+            }
+        }
+
+        int hasStudyNum = userWb.getU_wb_rate();
+
+        map.put("userWbs",userWbs);
+        map.put("userWb",userWb);
+        map.put("wordsNum",wordsNum);
+        map.put("hasStudyNum",hasStudyNum);
         map.put("status", 1);
 
         return map;
@@ -49,12 +71,18 @@ public class WordbookService {
     public Map userSetWb(String open_id,String wb_id){
         Map map = new HashMap();
 
+        if(open_id.equals("null")||wb_id.equals("null")){
+            map.put("status", 0);
+            map.put("msg", "输入值有空");
+            return map;
+        }
+
         UserWb userWb = new UserWb();
         userWb.setOpen_id(open_id);
         userWb.setWb_id(wb_id);
         userWb.setU_wb_status(0);
+        userWb.setU_wb_rate(0);
 
-        map.put("status", 1);
 
         //如果已经有未背诵完的单词书，则设置为-1
         wordbookDao.updateWbStatus(userWb.getOpen_id(),null,-1);
@@ -66,6 +94,8 @@ public class WordbookService {
         }else{
             wordbookDao.insertWb(userWb);
         }
+
+        map.put("status", 1);
         return map;
 
     }

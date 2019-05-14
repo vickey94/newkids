@@ -1,95 +1,27 @@
-<view class="main">
+<!--pages/index/index.wxml-->
+<text>pages/index/index.wxml</text>
 
-  <view class="header">
-    <view class="left-box"></view>
-
-    <view class="time-box">
-      <text>999</text>
-    </view>
-
-    <view class='box-mid'>
-    <text>累计打卡 10 天</text>
-    </view>
-
-    <view class="right userinfo">
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-    </view>
-  </view>
-  <view class='line-box'></view>
-
-  <view class='wb-title'>· CET-4单词书学习中</view>
-  <view class="body">
-
-    <view class="box-plan">
-      <view class="plan">
-        <view class="top">
-          <text class="plan-num">10</text>
-        </view>
-        <view class="button">
-          <text class="plan-name">新单词</text>
-        </view>
-      </view>
-      <view class="plan">
-        <view class="top">
-          <text class="plan-num">20</text>
-        </view>
-        <view class="button">
-          <text class="plan-name">今日已学</text>
-        </view>
-      </view>
-      <view class="plan">
-        <view class="top">
-          <text class="plan-num">4000</text>
-        </view>
-        <view class="button">
-          <text class="plan-name">我的单词</text>
-        </view>
-      </view>
-    </view>
-    <view class="box-learn">背诵单词</view>
-  </view>
-
-  <view class='read'>· 阅读推荐</view>
-  <scroll-view scroll-x class="box-papers">
-    <view class='paper-left'>
-      <view class='paper-content'></view>
-    </view>
-
-
-    <view style="background:url('https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLibicElvH09SqOcicorqkXJCfQUBic8h6Oqs0mO0bGXyoU5fLECyebQpx4liaKickzbjia9nSg6feVl7hxw/132');background-size:cover;" class="paper">
-      <view class='paper-c1'>
-        <text>Tesla Promises ‘One Million 123 in 2020Tesla PromisesTesla Promises ‘One Million 123 in 2020Tesla Promises</text>
-      </view>
-      <view class="paper-c2">
-        <text>200词 难度：一般</text>
-      </view>
-    </view>
-
-    <view class="paper">
-      <view class='paper-c1'>
-        <text>Tesla Promises ‘One Million 123 in 2020Tesla PromisesTesla Promises ‘One Million 123 in 2020Tesla Promises</text>
-      </view>
-      <view class="paper-c2">
-        <text>200词 难度：一般</text>
-      </view>
-    </view>
-
-  </scroll-view>
-
-  <view class='wb-text'>· 单词书</view>
-  <scroll-view scroll-x class="box-wordbook">
-    <view class='paper-left'>
-      <view class='paper-content'></view>
-    </view>
-
-    <view class="wordbook">
-      <view class='wordbook-c3'>
-        <text>大学英语\nCET-4</text>
-      </view>
-      <view class="wordbook-c4">
-        <text>10000词\n难度：一般</text>
-      </view>
-    </view>
-
-  </scroll-view>
+<view>
+  {{userNowWb.wb_id}}
 </view>
+<view>today_num {{today_num}}</view>
+<view>today_words {{today_words.length}}</view>
+<view>hasStudyDay {{hasStudyDay}}</view>
+<view>hasStudyNum {{hasStudyNum}}</view>
+<view>wordsNum {{wordsNum}}</view>
+<view wx:for="{{wbs}}" wx:key="item.wb_id" wx:for-index="index">
+  <view>
+    {{item.wb_id}} {{item.wordbook}} {{item.wb_num}}
+  </view>
+</view>
+
+<button wx:if="{{hasWord}}" bindtap='toStudy'>背诵单词</button>
+
+<view wx:for="{{papers}}" wx:key="item.p_id" wx:for-index="index">
+  <view bindtap="toPaper" data-value='{{item.p_id}}'>
+    {{item.p_id}} {{item.p_title}}
+  </view>
+</view>
+
+<button  bindtap='getPapers'>换一组</button>
+

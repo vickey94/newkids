@@ -1,12 +1,17 @@
 {
   "pages": [
+    "pages/style/style",
+    "pages/test/test",
    
     "pages/index/index",
+   
     "pages/login/login",
-    "pages/logs/logs",
-    "pages/user/user",
+    "pages/study/study",
     "pages/word/word",
-    "pages/paper/paper"
+    "pages/checkword/checkword",
+    "pages/paper/paper",
+    "pages/checkpaper/checkpaper"
+
   ],
   "window": {
     "backgroundTextStyle": "light",

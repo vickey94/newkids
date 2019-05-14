@@ -1,2 +1,40 @@
 <!--pages/word/word.wxml-->
 <text>pages/word/word.wxml</text>
+
+<view>{{cibaWord.word_name}}</view>
+<view>
+  <text wx:if='{{cibaWord.word_done}}!=""'>{{cibaWord.word_done}}</text>
+  <text wx:if='{{cibaWord.word_er}}!=""'>{{cibaWord.word_er}}</text>
+  <text wx:if='{{cibaWord.word_ing}}!=""'>{{cibaWord.word_ing}}</text>
+  <text wx:if='{{cibaWord.word_past}}!=""'>{{cibaWord.word_past}}</text>
+  <text wx:if='{{cibaWord.word_pl}}!=""'>{{cibaWord.word_pl}}</text>
+  <text wx:if='{{cibaWord.word_third}}!=""'>{{cibaWord.word_third}}</text>
+</view>
+<view>
+  <text>{{cibaWord.symbols[0].ph_am}}</text>
+  <text bindtap="playAudio" data-value='am'>播放am</text>
+    <text wx:if="{{isPlay_am}}">playing</text>
+
+</view>
+<view>
+  <text>{{cibaWord.symbols[0].ph_en}} </text>
+
+  <text bindtap="playAudio" data-value='en'>播放en</text>
+    <text wx:if="{{isPlay_en}}">playing</text>
+</view>  
+
+<view wx:for="{{cibaWord.symbols[0].parts}}"wx:key="part" wx:for-index="index" wx:for-item="s">
+  {{s.part}}
+  <text wx:for="{{s.means}}" wx:key="m" wx:for-item="m">{{m}}</text>
+</view>
+
+<view wx:for="{{cibaSents}}" wx:key="index"  wx:for-index="index" wx:for-item="sent">
+  <text bindtap="playAudio" data-value='{{index}}'>{{sent.orig}}</text>
+  <text wx:if="{{sent.isPlay}}">playing</text>
+{{sent.trans}}
+</view>
+
+
+<button wx:if="{{userInfo!=null}}" bindtap='nextWord'>下一个单词</button>
+
+<button wx:if="{{isRem}}" bindtap='reSetWord'>重置</button>

@@ -10,7 +10,7 @@
     </parent>
     <groupId>gxnu</groupId>
     <artifactId>newkids</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.6.0</version>
     <name>newkids</name>
     <description>newkids for wx</description>
 
@@ -91,10 +91,14 @@
 
 
     <build>
+        <finalName>newkids</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>gxnu.newkids.NewkidsApplication</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>

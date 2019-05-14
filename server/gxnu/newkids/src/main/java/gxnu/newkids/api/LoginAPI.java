@@ -24,6 +24,7 @@ public class LoginAPI {
         logger.info("用户登录,{}",code);
 
         Map map = loginService.login(code,rawData, signature , encryptedData, iv);
+        System.out.println(map.toString());
 
         return map;
     }

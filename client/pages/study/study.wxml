@@ -1,0 +1,6 @@
+<!--pages/study/study.wxml-->
+<text>pages/study/study.wxml</text>
+<view>{{word}}</view>
+<button bindtap='isRem' data-value='true'>记得</button>
+<button bindtap='isRem' data-value='false'>不记得</button>
+

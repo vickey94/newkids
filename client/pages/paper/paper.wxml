@@ -1,2 +1,11 @@
 <!--pages/paper/paper.wxml-->
 <text>pages/paper/paper.wxml</text>
+
+<view wx:if="{{paper!=null}}">
+
+<view>
+{{paper.p_title}}
+</view>
+
+<button wx:if="{{!hasRead}}" bindtap='checkPaper'>阅读完成</button>
+</view>

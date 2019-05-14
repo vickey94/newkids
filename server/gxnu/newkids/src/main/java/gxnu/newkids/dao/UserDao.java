@@ -11,4 +11,8 @@ public interface UserDao {
     void updateUserSession(UserSession userSession);
 
     void userVisit(UserSession userSession);
+
+    void userCheck(String open_id);
+
+    int getUserCheckTimes(String open_id);
 }
