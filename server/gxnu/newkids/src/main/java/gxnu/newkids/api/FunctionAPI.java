@@ -196,9 +196,14 @@ public class FunctionAPI {
         logger.info("用户自动打卡, open_id is {}",openId);
 
         return uservice.UserCheckIn(openId);
-
-
     }
+    @RequestMapping(value = {"/getcibaword"}, method = RequestMethod.GET)
+    public Map getCibaWord(@RequestParam String w,@RequestParam String type){
+        logger.info("获取词霸单词, word is {}",w);
+
+        return wservice.getCibaWord(w,type);
+    }
+
 
 
 }

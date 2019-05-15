@@ -3,16 +3,26 @@ package gxnu.newkids.service;
 import gxnu.newkids.dao.WordDao;
 import gxnu.newkids.entity.Baseword;
 import gxnu.newkids.entity.WordLogs;
+import gxnu.newkids.util.HttpRequest;
+import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 import javax.annotation.Resource;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static org.apache.commons.lang.StringEscapeUtils.*;
 
 /***
  * 单词服务层
@@ -112,6 +122,26 @@ public class WordService {
         return map;
     }
 
+
+    public Map getCibaWord(String word,String type)  {
+        Map map = new HashMap();
+
+        String params = "key=9D579F3386B678CF309BC6AD2B03A376&type="+type+"&w="+word.toLowerCase() ;
+        //发送请求
+        String sr ;
+
+            sr = HttpRequest.sendGetUTF8("http://dict-co.iciba.com/api/dictionary.php", params);
+        if(type.toLowerCase().equals("json")){
+            sr = unescapeJava(sr);
+        }
+
+      //  System.out.println(sr);
+
+        map.put("status", 1);
+        map.put("res",sr);
+
+        return map;
+    }
 
 
 
