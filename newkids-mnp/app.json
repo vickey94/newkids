@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "pages/pre/pre",
+    "pages/index/index",
+    "pages/word/word",
+    "pages/paper/paper",
+    "pages/search/search"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom"
+  },
+  "sitemapLocation": "sitemap.json"
+}

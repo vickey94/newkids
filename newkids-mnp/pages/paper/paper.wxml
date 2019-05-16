@@ -1,0 +1,34 @@
+<wxs module="filters" src="../utils.wxs"></wxs>
+<view class="container" wx:if="{{paper!=null}}" bindtouchstart="touchStart" bindtouchend="touchEnd">
+
+  <view class='title'>{{paper.p_title}}</view>
+
+  <view class="info">source：{{paper.p_source}}</view>
+  <view class="info">date：{{paper.p_update_time_f}}</view>
+  <view class="info">score：{{filters.toFix(paper.p_score)}} reading times：{{paper.p_times}}</view>
+
+  <view class='paper'>
+    <text decode="true">{{paper.paper}}</text>
+  </view>
+
+  <view class='finishpaper' wx:if="{{ userInfo != null }}">
+
+   <block wx:if="{{p_score == 0}}">评价并完成阅读：</block>
+   <block wx:if="{{p_score > 0}}">已阅读:</block> 
+
+    <image class='img-star'  bindtap="setScore" data-value='1' src="{{p_score >= 1 ? '../../img/star_s.png':'../../img/star.png'}}"></image>
+    <image class='img-star' bindtap="setScore" data-value='2' src="{{p_score >= 2 ? '../../img/star_s.png':'../../img/star.png'}}"></image>
+    <image class='img-star' bindtap="setScore" data-value='3' src="{{p_score >= 3 ? '../../img/star_s.png':'../../img/star.png'}}"></image>
+    <image class='img-star' bindtap="setScore" data-value='4' src="{{p_score >= 4 ? '../../img/star_s.png':'../../img/star.png'}}"></image>
+    <image class='img-star' bindtap="setScore" data-value='5' src="{{p_score >= 5 ? '../../img/star_s.png':'../../img/star.png'}}"></image>
+
+  </view>
+
+   <view  wx:if="{{ userInfo == null }}" class='xcxbuttom' style='background:#3891a7; color:white;'>
+    <navigator  url="../pre/pre"
+    open-type="redirect"
+    hover-class="other-navigator-hover" >查看小程序</navigator>   
+  </view>
+
+</view>
+

@@ -1,0 +1,32 @@
+<!--加载-->
+<view wx:if="{{isLoading}}">
+
+<view class='b-main'>
+ <view class="sk-rotating-plane"></view>
+ <view class='box-newkids'>NEWKIDS</view>
+</view>
+
+</view>
+
+<!--注册-->
+<view wx:if="{{!isLoading}}" class='b-main-wb'>
+
+  
+  <view class='b-main-box'>
+   <view class='box-logo'>
+      <image class='img-logo' src="../../img/newkids.png"></image>
+    </view>
+    <view class='box-setwb'>请先设置单词书</view>
+ 
+    <view class='box-wbs'>
+    <view  wx:for="{{wbs}}" wx:key="item.wb_id" wx:for-index="index">
+      <view bindtap='setUserWb' data-value='{{item.wb_id}}' wx:if="{{wb_id == item.wb_id}}" class='box-wb' style='background: #feb80a;'> {{item.wordbook}} <text class='wb_num'>{{item.wb_num}}词</text></view>
+      <view bindtap='setUserWb' data-value='{{item.wb_id}}' wx:if="{{wb_id != item.wb_id}}" class='box-wb'> {{item.wordbook}} <text class='wb-num'>{{item.wb_num}}词</text>
+      </view>
+      </view>
+    </view>
+    <view class='box-btn'>
+      <button class='btn-login' hover-class='btn_hover' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="bingGetUserInfo">授权并开始</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,13 @@
+.bg{
+    background-color: #3891a7;
+}
+
+.bg2{
+  background: #30889e;
+}
+.bg3{
+  background: #266c7e;
+}
+.bg-yellow{
+    background-color:#feb80a ;
+}

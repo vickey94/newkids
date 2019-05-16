@@ -1,0 +1,139 @@
+/* pages/pre/pre.wxss */
+page{
+ background: linear-gradient(180deg, #3891a7, white);
+}
+
+/**加载模块**/
+.b-main{
+position: fixed;
+height: 800rpx;
+width: 100%;
+bottom:0rpx;
+}
+
+.box-newkids{ 
+  position: relative;
+  margin-top: 150rpx;
+  font-size: 30rpx;
+  color: white;
+  text-align: center;
+}
+.sk-rotating-plane {
+  width: 150rpx;
+  height: 150rpx;
+  background-color:#feb80a ;
+  margin-left: 300rpx;
+  -webkit-animation: sk-rotatePlane 1.2s infinite ease-in-out;
+          animation: sk-rotatePlane 1.2s infinite ease-in-out; }
+
+@-webkit-keyframes sk-rotatePlane {
+  0% {
+    -webkit-transform: perspective(200rpx) rotateX(0deg) rotateY(0deg);
+            transform: perspective(200rpx) rotateX(0deg) rotateY(0deg); }
+  50% {
+    -webkit-transform: perspective(200rpx) rotateX(-180.1deg) rotateY(0deg);
+            transform: perspective(200rpx) rotateX(-180.1deg) rotateY(0deg); }
+  100% {
+    -webkit-transform: perspective(200rpx) rotateX(-180deg) rotateY(-179.9deg);
+            transform: perspective(200rpx) rotateX(-180deg) rotateY(-179.9deg); } }
+
+@keyframes sk-rotatePlane {
+  0% {
+    -webkit-transform: perspective(200rpx) rotateX(0deg) rotateY(0deg);
+            transform: perspective(200rpx) rotateX(0deg) rotateY(0deg); }
+  50% {
+    -webkit-transform: perspective(200rpx) rotateX(-180.1deg) rotateY(0deg);
+            transform: perspective(200rpx) rotateX(-180.1deg) rotateY(0deg); }
+  100% {
+    -webkit-transform: perspective(200rpx) rotateX(-180deg) rotateY(-179.9deg);
+            transform: perspective(200rpx) rotateX(-180deg) rotateY(-179.9deg); } }
+
+
+/**logun**/
+.b-main-wb {
+  position: fixed;
+  height: 950rpx;
+  width: 100%;
+  bottom: 100rpx;
+}
+
+.b-main-box {
+  position: relative;
+}
+
+.box-logo {
+  text-align: center;
+}
+
+.img-logo {
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 50%;
+}
+
+.box-setwb {
+  color: white;
+  font-size: 32rpx;
+  padding: 150rpx 0 15rpx 45rpx;
+}
+
+.box-wbs {
+  margin-top: 25rpx;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  color: white;
+}
+
+
+.box-wb {
+  flex: 1;
+  width: 300rpx;
+  margin: 25rpx 0rpx 0rpx 50rpx;
+  padding: 15rpx 0 15rpx 0;
+  background: #3891a7;
+  font-size: 28rpx;
+  line-height: 50rpx;
+  border-radius: 35px;
+}
+
+.wb-num {
+  font-size: 24rpx;
+  color: #ccc;
+}
+
+button {
+  border: none;
+  outline: none;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+}
+
+button::after {
+  border: none;
+}
+
+.box-btn {
+  position: fixed;
+  height: 100rpx;
+  width: 100%;
+  bottom: 0rpx;
+}
+
+.btn-login {
+  height: 100rpx;
+  padding: 15rpx 0 15rpx 0;
+  line-height: 70rpx;
+  font-size: 34rpx;
+  background-color: #3891a7;
+  color: #fff;
+}
+
+.btn_hover {
+  background-color: #feb80a;
+}
+
+
+

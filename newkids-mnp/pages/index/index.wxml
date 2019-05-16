@@ -1,0 +1,157 @@
+<wxs module="filters" src="../utils.wxs"></wxs>
+
+
+
+
+   
+<scroll-view class="box-view" style='height: {{pHig}}rpx;' scroll-into-view="view-{{nowYView}}" scroll-y scroll-with-animation="true">
+   <view class="space"> </view>
+  <view  id="view-0" class="mid" style='height: {{pHig}}rpx;' bindtouchstart="touchStart" bindtouchend="touchEnd" wx:if="{{!isOnShow}}">
+    <view class='mid-content mid-space'>
+
+      <view bindtap='setGroupNum'>
+        <view hidden="{{isSetGroupNum}}" class='group-num-title' animation="{{aniBox1}}">设置每组单词个数</view>
+        <view hidden="{{!isSetGroupNum}}" class='group-num' animation="{{aniBox1}}">
+          <slider backgroundColor="white" block-size="18" activeColor="white" value="{{groupNum}}" bindchange="groupNumchange" step="5" show-value min="10" max="100" />
+        </view>
+      </view>
+      <view class='box-wordbook'>
+        <view>长按更换单词书</view>
+        <view class='box-wbs'>
+
+          <view wx:for="{{wbs}}" wx:key="item.wb_id" wx:for-index="index">
+            <view bindlongpress='setUserWb' data-value='{{item.wb_id}}' wx:if="{{item.wb_id != userNowWb.wb_id }}" class='wordbook'>
+              <view class='wb_title'>{{item.wordbook}}</view>
+              <view class='wb_num'>{{item.wb_num}}词</view>
+              <view wx:for="{{userWbs}}" wx:key="item.wb_id" wx:for-index="index" wx:for-item="uwbs">
+                <view wx:if="{{uwbs.wb_id == item.wb_id}}">已学习:{{uwbs.u_wb_rate}}</view>
+              </view>
+            </view>
+
+            <view data-value='{{item.wb_id}}' wx:if="{{item.wb_id == userNowWb.wb_id}}" class='wordbook' style='background: #feb80a;'>
+              <view class='wb_title'>{{item.wordbook}}</view>
+              <view class='wb_num'>{{item.wb_num}}词</view>
+              <view>已学习:{{userNowWb.u_wb_rate}}</view>
+            </view>
+          </view>
+
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view id="view-1" class="mid" style='height: {{pHig}}rpx;' bindtouchstart="touchStart" bindtouchend="touchEnd">
+ 
+   <view class='box-search' style='margin-top:{{navH+7}}px;'>
+   <input placeholder='search' confirm-type='search'  cursor='10' bindinput="searchWord" bindconfirm="searchWordFromCiba1" value="{{sWordTxt}}" bindblur="clearSearch">
+   </input>
+
+   <block wx:for="{{sWords}}" wx:key="item.word">
+    <view class='search-res' data-value="{{item.word}}" bindtap='searchWordFromCiba2'>{{item.word}}</view>
+   </block>
+   </view>
+    <view class='mid-content '>
+      <view class='mid-top mid-space'>
+        <view class="userinfo">
+          <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+          <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+        </view>
+      </view>
+
+      <view class='box-main mid-space' animation="{{onShowAni1}}">
+        <view class='box-checkIn'>
+          <view wx:if="{{today_checkin}}" class='box-m1'>
+            <text style='font-weight:600; color:#3891a7;'>今日已打卡</text>
+          </view>
+          <view wx:if="{{!today_checkin}}" class='box-m1'>
+            <text style='font-weight:600; color:#feb80a;'>今日未打卡</text>
+          </view>
+        </view>
+
+        <view class='box-m1 '>
+          <text style="font-weight:600"> · </text >已打卡：<text style="font-weight:600">{{hasStudyDay}}天</text >
+          </view>
+          <view class='box-m1' wx:for="{{wbs}}" wx:key="item.wb_id" wx:for-index="index">
+            <text wx:if='{{item.wb_id == userNowWb.wb_id}}'><text style="font-weight:600"> · {{item.wordbook}} 单词书 </text>学习中</text>
+        </view>
+      </view>
+
+      <view class='box-main mid-space' animation="{{onShowAni2}}">
+        <view class='box-plan'>
+          <view class='box-plan-child'>
+            <view class="plan-num">{{leftWords.length}}</view>
+            <view class="plan-text">新单词</view>
+          </view>
+          <view class='box-plan-child'>
+            <view class="plan-num">{{today_words.length}}</view>
+            <view class="plan-text">今日已学</view>
+          </view>
+          <view class='box-plan-child'>
+            <view class="plan-num">{{wbWordsNum-hasStudyNum}}</view>
+            <view class="plan-text">剩余单词</view>
+          </view>
+        </view>
+        <view class='box-study bg2' bindtap='studyWords' wx:if="{{hasWord}}">
+          背诵单词
+        </view>
+
+        <view class='box-study bg-yellow' wx:if="{{!hasWord}}">
+          加载中
+        </view>
+
+      </view>
+
+
+      <view animation="{{onShowAni3}}">
+        <view class='box-title'>Reading</view>
+
+        <scroll-view class="box-papers" scroll-into-view="" scroll-x scroll-with-animation="true" style='min-height: 235rpx;'>
+          <view wx:if="{{papers.length != 0}}">
+            <view style='display: inline-block; margin-left:15rpx;'></view>
+            <view bindtap='getOnePaper' data-value='{{item.p_id}}' class='box-paper' wx:for="{{papers}}" wx:key="item.wb_id" wx:for-index="index">
+              <view id="p_{{item.p_id}}" class="paper-title">{{item.p_title}}</view>
+              <view class="paper-info">
+                <text decode="true">评分：{{filters.toFix(item.p_score)}}&nbsp;&nbsp;&nbsp;&nbsp;阅读次数：{{item.p_times}}</text>
+              </view>
+            </view>
+          </view>
+
+           <view wx:if="{{papers.length == 0 && !papersLoading}}" bindtap='getPapers' class='loadpaper'>
+           点击加载文章
+           </view>
+           
+           <view wx:if="{{papersLoading}}"  class='loadpaper'>
+            文章加载中
+           </view>
+
+        </scroll-view>
+      </view>
+    </view>
+
+  </view>
+<!--
+   <view id="view-2" class="mid" style='height: {{pHig}}rpx; position: absolute;' bindtouchstart="touchStart" bindtouchend="touchEnd">
+
+   <view class='box-search' style='margin-top:{{navH+7}}px;'>
+   <input placeholder='search' confirm-type='search' focus cursor='10' bindinput="searchWord" bindconfirm="searchWordFromCiba1" value="{{sWordTxt}}">
+   </input>
+
+   <block wx:for="{{sWords}}" wx:key="item.word">
+    <view class='search-res' data-value="{{item.word}}" bindtap='searchWordFromCiba2'>{{item.word}}</view>
+   </block>
+
+   <view>
+   今日已背单词列表
+   历史背单词个数
+   </view>
+ 
+   </view>
+   </view>
+-->
+
+
+
+  <view class="space"> </view>
+
+
+</scroll-view>

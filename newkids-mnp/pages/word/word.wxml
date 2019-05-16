@@ -1,0 +1,116 @@
+<scroll-view class="box-view" style='height: {{pHig}}rpx;' scroll-into-view="view-{{nowYView}}" scroll-y scroll-with-animation="true">
+
+  <view id="view-0" class="mid" style='height: {{pHig}}rpx;' wx:if="{{type != -1 }}" bindtouchstart="touchStart" bindtouchend="touchEnd">
+    <view class='box-top'>
+
+      <view wx:if="{{wb_name!=''}}" class='box-process'>
+        <progress percent="{{percent}}" activeColor="white" backgroundColor="#266c7e" active-mode="forwards" />
+      </view>
+      <view class='box-wb'>{{wb_name}}</view>
+    </view>
+
+    <view class='mid-btm'>
+      <view class='box-w1'>
+        <view class="box-word">
+          <text style='word-break:break-all;' bindtap="playAudio" data-value='en'>{{cibaWord.word_name}}</text>
+        </view>
+
+        <view class='box-yb'>
+          <text bindtap="playAudio" data-value='en'>EN:/{{cibaWord.symbols[0].ph_en}}/</text>
+        </view>
+        <view class='box-yb'>
+          <text bindtap="playAudio" data-value='am'>AM:/{{cibaWord.symbols[0].ph_am}}/</text>
+        </view>
+
+        <view class='box-voice'>
+          <view class="sk-wave" wx:if="{{isPlay_en||isPlay_am}}">
+            <view class="sk-rect sk-rect1"></view>
+            <view class="sk-rect sk-rect2"></view>
+            <view class="sk-rect sk-rect3"></view>
+            <view class="sk-rect sk-rect4"></view>
+            <view class="sk-rect sk-rect5"></view>
+          </view>
+
+        </view>
+      </view>
+      <view class="box-w2"> </view>
+      <!--<view bindtouchstart="touchStart" bindtouchend="touchEnd" >
+        <view class="box-w2 touch-box">
+        <view class="touch-tips">touch area</view>
+        </view>
+      </view>-->
+
+      <view class='box-w3'>
+        <view class='box-w3-l'>
+          <text decode="true">&lt;认识</text>
+        </view>
+        <view class='box-w3-m'>
+          <text decode="true">查看释义</text>
+        </view>
+        <view class='box-w3-r'>
+          <text decode="true">不认识&gt;</text>
+        </view>
+      </view>
+    </view>
+
+  </view>
+
+  <view id="view-1" style='height: {{pHig}}rpx;'>
+
+    <view class='mid2' bindtouchstart="touchStart" bindtouchend="touchEnd">
+      <view class='m2-box'>
+        <view class='m2-word'>
+          <view style='word-break:break-all;'>{{cibaWord.word_name}}</view>
+
+          <view class="sk-wave" style='margin-top:15rpx;margin-left:25rpx;' wx:if="{{isPlay_en||isPlay_am||isPlay_sents}}">
+            <view class="sk-rect sk-rect1"></view>
+            <view class="sk-rect sk-rect2"></view>
+            <view class="sk-rect sk-rect3"></view>
+            <view class="sk-rect sk-rect4"></view>
+            <view class="sk-rect sk-rect5"></view>
+          </view>
+        </view>
+        <view class='m2-yb' style='margin-top:15rpx;margin-bottom:15rpx'>
+
+          <text bindtap="playAudio" data-value='en'>EN:/{{cibaWord.symbols[0].ph_en}}/</text>
+          <text style='margin-left:50rpx;' bindtap="playAudio" data-value='am'>AM:/{{cibaWord.symbols[0].ph_am}}/</text>
+
+        </view>
+
+        <view class='m2-means' wx:for="{{cibaWord.symbols[0].parts}}" wx:key="part" wx:for-index="index" wx:for-item="s">
+          {{s.part}}
+          <text wx:for="{{s.means}}" wx:key="m" wx:for-item="m">{{m}}</text>
+        </view>
+      </view>
+      <view class='m2-box' style='margin-top:15rpx;'>
+        <view>[其他]</view>
+        <text wx:if="{{cibaWord.exchange.word_pl!=''}}">复数：{{cibaWord.exchange.word_pl}}\n</text>
+        <text wx:if="{{cibaWord.exchange.word_third!=''}}">第三人称单数：{{cibaWord.exchange.word_third}}\n</text>
+        <text wx:if="{{cibaWord.exchange.word_er!=''}}">过去式：{{cibaWord.exchange.word_er}}\n</text>
+        <text wx:if="{{cibaWord.exchange.word_ing!=''}}">现在分词：{{cibaWord.exchange.word_ing}}\n</text>
+        <text wx:if="{{cibaWord.exchange.word_past!=''}}">过去式：{{cibaWord.exchange.word_past}}\n</text>
+        <text wx:if="{{cibaWord.exchange.word_done!=''}}">过去分词：{{cibaWord.exchange.word_done}}\n</text>
+      </view>
+      <view class='m2-box' >
+        <view>[例句]</view>
+        <view wx:for="{{cibaWord.sents}}" wx:key="index" wx:for-index="index" wx:for-item="sent">
+          <view bindtap="playAudio" data-value='{{index}}' style='margin-top:15rpx;'>
+            <text>{{sent.orig}}</text>
+          </view>
+          <view style='margin-buttom:15rpx;'>
+            <text>{{sent.trans}}</text>
+          </view>
+        </view>
+      </view>
+
+        <view class='xcxbuttom' wx:if="{{type == -1 }}">
+     <navigator  url="../pre/pre"
+    open-type="redirect"
+    hover-class="other-navigator-hover" >查看小程序</navigator>  </view>
+  </view>
+
+    <view style='width:100%;height:50rpx;'></view>
+    </view>
+
+
+</scroll-view>
