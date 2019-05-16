@@ -143,6 +143,19 @@ public class WordService {
         return map;
     }
 
+    public Map searchWord(String word){
+        Map map = new HashMap();
+
+        List<String> words = wordDao.searchWords(word);
+
+        System.out.println(words.size());
+
+        map.put("status", 1);
+        map.put("res",words);
+
+        return map;
+    }
+
 
 
 }

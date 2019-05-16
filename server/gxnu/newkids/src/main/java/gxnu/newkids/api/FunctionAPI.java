@@ -197,11 +197,18 @@ public class FunctionAPI {
 
         return uservice.UserCheckIn(openId);
     }
+
     @RequestMapping(value = {"/getcibaword"}, method = RequestMethod.GET)
     public Map getCibaWord(@RequestParam String w,@RequestParam String type){
         logger.info("获取词霸单词, word is {}",w);
 
         return wservice.getCibaWord(w,type);
+    }
+
+    @RequestMapping(value = {"/searchwords"}, method = RequestMethod.GET)
+    public Map searchWords(@RequestParam String w){
+
+        return wservice.searchWord(w);
     }
 
 
