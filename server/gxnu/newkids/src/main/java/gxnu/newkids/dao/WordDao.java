@@ -28,6 +28,6 @@ public interface WordDao {
 
     List<String> getW2W(String raw_word);
 
-    List<String> searchWords(String word);
+    List<Map> searchWords(String word);
 
 }

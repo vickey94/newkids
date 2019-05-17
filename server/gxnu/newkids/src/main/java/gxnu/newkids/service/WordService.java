@@ -4,23 +4,15 @@ import gxnu.newkids.dao.WordDao;
 import gxnu.newkids.entity.Baseword;
 import gxnu.newkids.entity.WordLogs;
 import gxnu.newkids.util.HttpRequest;
-import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 
 import javax.annotation.Resource;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.apache.commons.lang.StringEscapeUtils.*;
 
@@ -146,12 +138,20 @@ public class WordService {
     public Map searchWord(String word){
         Map map = new HashMap();
 
-        List<String> words = wordDao.searchWords(word);
+        List<Map> words = wordDao.searchWords(word);
 
-        System.out.println(words.size());
+        List<String> wordMeans = new ArrayList<>();
+
+        for(int i = 0 ; i <words.size();i++){
+            if( i > 2 ) break;;
+            String w = words.get(i).get("word")+"";
+            String m = (String) getCibaWord(w,"json").get("res");
+            wordMeans.add(m);
+        }
 
         map.put("status", 1);
         map.put("res",words);
+        map.put("wordMs",wordMeans);
 
         return map;
     }

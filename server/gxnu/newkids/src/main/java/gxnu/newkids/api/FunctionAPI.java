@@ -200,7 +200,7 @@ public class FunctionAPI {
 
     @RequestMapping(value = {"/getcibaword"}, method = RequestMethod.GET)
     public Map getCibaWord(@RequestParam String w,@RequestParam String type){
-        logger.info("获取词霸单词, word is {}",w);
+       // logger.info("获取词霸单词, word is {}",w);
 
         return wservice.getCibaWord(w,type);
     }
