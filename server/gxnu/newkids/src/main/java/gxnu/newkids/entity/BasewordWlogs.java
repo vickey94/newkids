@@ -1,7 +1,7 @@
 package gxnu.newkids.entity;
 
 //t_basewords 基础词汇表（此表包含各个单词书的所有单词）
-public class Baseword {
+public class BasewordWlogs {
 
     private String bw_id;
     private String word;
@@ -10,6 +10,7 @@ public class Baseword {
     private Integer bw_count;
     private Integer bw_ack_rate;
     private Integer bw_score;
+    private WordLogs wordLogs;
 
     @Override
     public String toString() {
@@ -23,6 +24,9 @@ public class Baseword {
                 ", bw_score=" + bw_score +
                 '}';
     }
+
+
+
 
     public String getBw_id() {
         return bw_id;
@@ -78,5 +82,13 @@ public class Baseword {
 
     public void setBw_score(Integer bw_score) {
         this.bw_score = bw_score;
+    }
+
+    public WordLogs getWordLogs() {
+        return wordLogs;
+    }
+
+    public void setWordLogs(WordLogs wordLogs) {
+        this.wordLogs = wordLogs;
     }
 }

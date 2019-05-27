@@ -2,6 +2,7 @@ package gxnu.newkids.service;
 
 import gxnu.newkids.dao.WordDao;
 import gxnu.newkids.entity.Baseword;
+import gxnu.newkids.entity.BasewordWlogs;
 import gxnu.newkids.entity.WordLogs;
 import gxnu.newkids.util.HttpRequest;
 import org.slf4j.Logger;
@@ -9,10 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.util.*;
 
 import static org.apache.commons.lang.StringEscapeUtils.*;
 
@@ -32,37 +31,68 @@ public class WordService {
 
         map.put("status", 1);
 
+        /**历史单词**/
+        List<BasewordWlogs> hisWords = getHisWordGroup(open_id,wb_id,bw_diff,size/2);
+
+        size = size - hisWords.size();
+
+        /**新单词**/
         List<Baseword> basewords = wordDao.getWordGroup(open_id,wb_id,bw_diff,500);
 
-        List<Baseword> res = new ArrayList<>();
-
+        List<Baseword> bws = new ArrayList<>();
 
         int length = basewords.size();
 
-        if(length == 500) //当剩余不到500个时，取消随机
+        if(length >= size)
         for(int i = 0 ; i < size ; i++){
             int index = (int)(Math.random()*length);
-            res.add(basewords.get(index));
-        }else{
-           res = wordDao.getWordGroup(open_id,wb_id,bw_diff,size);
+            bws.add(basewords.get(index));
         }
-
-        map.put("res",res);
+        else{
+            for(int i = 0 ; i < length ; i++){
+                bws.add(basewords.get(i));
+            }
+        }
+        map.put("newWords",bws);
+        map.put("hisWords",hisWords);
 
         return map;
     }
 
     //获取一组历史单词
-    public Map getHisWordGroup(String open_id,int bw_diff,int w_sorce,int size){
-        Map map = new HashMap();
+    public List<BasewordWlogs> getHisWordGroup(String open_id, String wb_id, int bw_diff, int size){
 
-        map.put("status", 1);
+        List hisWordsMap = wordDao.getHisWordGroup(open_id,wb_id,bw_diff,7,size);
 
-        List wordciba = wordDao.getHisWordGroup(open_id,bw_diff,w_sorce,size);
-        map.put("res",wordciba);
+        List<BasewordWlogs> hisWords = new ArrayList<BasewordWlogs>();
 
-        return map;
+        Iterator it = hisWordsMap.iterator();
+        while (it.hasNext()){
 
+            Map w = (Map) it.next();
+            WordLogs wl = new WordLogs();
+            wl.setW_logs_id((Integer)w.get("w_logs_id"));
+            wl.setWb_id(w.get("wb_id")+"");
+            wl.setOpen_id(w.get("open_id")+"");
+            wl.setBw_id(w.get("bw_id")+"");
+            wl.setW_score((Integer)w.get("w_score"));
+            wl.setW_spend_time((Integer)w.get("w_spend_time"));
+            wl.setW_last_time((Timestamp)w.get("w_last_time"));
+
+            BasewordWlogs bwl = new BasewordWlogs();
+
+            bwl.setBw_id(w.get("bw_id")+"");
+            bwl.setWord(w.get("word")+"");
+            bwl.setBw_freq((Integer)w.get("bw_freq"));
+            bwl.setBw_diff((Integer)w.get("bw_diff"));
+            bwl.setBw_count((Integer)w.get("bw_count"));
+            bwl.setBw_ack_rate((Integer)w.get("bw_ack_rate"));
+            bwl.setWordLogs(wl);
+
+            hisWords.add(bwl);
+        }
+
+        return hisWords;
     }
 
     //获取一组单词,包括词霸释义
@@ -104,11 +134,20 @@ public class WordService {
             logger.info("新增用户历史词汇");
             wordDao.insertWordLogs(wordLogs);
             wordDao.updateBaseWordsCount(wordLogs);
-            //更新用户本单词书已背单词个数，这里直接按照List.size更新，减少更新次数
-            wordDao.updateUserWbRate(wordLogs.size(),open_id,wb_id);
+
         }else if(word_type.equals("2")){
             logger.info("更新用户历史词汇");
             wordDao.updateWordLogs(wordLogs);
+
+            //更新用户本单词书已背单词个数，这里直接按照List.size更新，减少更新次数
+            int size = 0;
+            for(int i = 0 ; i < wordLogs.size();i++){
+                if(wordLogs.get(i).getW_score() >= 7){
+                    size++;
+                }
+            }
+            if(size > 0)
+            wordDao.updateUserWbRate(wordLogs.size(),open_id,wb_id);
         }
 
         return map;

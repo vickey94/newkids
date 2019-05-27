@@ -4,6 +4,7 @@ import gxnu.newkids.entity.Baseword;
 
 import gxnu.newkids.entity.WordLogs;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ public interface WordDao {
 
     List<Baseword> getWordGroup(String open_id,String wb_id,int bw_diff,int size);
 
-    List<Baseword> getHisWordGroup(String open_id,int bw_diff,int w_sorce,int size);
+    List<Baseword> getHisWordGroup(String open_id,String wb_id,int bw_diff,int w_score,int size);
 
     List<Map> getWordcibaGroup(String open_id,String wb_id,int bw_diff,int size);
 
@@ -26,7 +27,7 @@ public interface WordDao {
 
     void updateBaseWordsCount(List<WordLogs> wordLogs);
 
-    List<String> getW2W(String raw_word);
+    List<Map> getW2W(List<String> raw_word);
 
     List<Map> searchWords(String word);
 

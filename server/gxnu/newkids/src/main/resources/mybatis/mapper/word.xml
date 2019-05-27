@@ -30,26 +30,20 @@ AND bw.bw_id NOT IN (SELECT bw_id FROM t_word_logs WHERE open_id = #{open_id})
 LIMIT #{size}
     </select>
 
-    <select id="getHisWordGroup"  resultMap="BasewordMap">
+    <select id="getHisWordGroup"    resultType="java.util.Map">
         SELECT
         *
         FROM
-        t_basewords bw,
-        t_word_logs wl
+        t_word_logs wl,
+        t_basewords bw
         WHERE
         wl.open_id = #{open_id}
-        AND bw.bw_id = wl.bw_id
-        <if test="bw_diff != -1">
-        AND bw.bw_diff >= #{bw_diff}
-        </if>
-        <if test="w_score != -1">
-        AND wl.w_score <![CDATA[ <= ]]> #{w_score}
-        </if>
-        ORDER BY
-        wl.w_spend_time DESC,
-        wl.w_last_time DESC
-        LIMIT  #{size}
-
+        AND wl.wb_id = #{wb_id}
+        AND wl.w_score <![CDATA[<]]> #{w_score}
+       AND  (NOW() - wl.w_last_time) > 86400
+        AND wl.bw_id = bw.bw_id
+        AND  bw.bw_diff <![CDATA[>=]]> #{ bw_diff}
+        LIMIT #{size}
     </select>
 
     <select id="getWordcibaGroup"  resultType="java.util.Map">
@@ -94,24 +88,30 @@ AND p.pos_id = m.pos_id
     </insert>
     
     <update id="updateUserWbRate" >
-         UPDATE t_user_wb SET u_wb_rate = u_wb_rate + #{rate} WHERE open_id = #{open_id} AND wb_id = #{wb_id}
+         UPDATE t_user_wb SET u_wb_rate = u_wb_rate + #{rate} WHERE open_id = #{open_id} AND wb_id = #{wb_id};
     </update>
 
     <update id="updateWordLogs" parameterType="java.util.List">
         <foreach collection="list" item="item" index="index" separator=";">
-UPDATE t_word_logs SET `w_score`=#{item.w_score},`w_spend_time`=#{item.w_spend_time},`w_last_time` = NOW()
-WHERE `open_id`=#{item.open_id}AND `wb_id`=#{item.wb_id} AND `bw_id` =#{item.bw_id}  ;
+UPDATE t_word_logs SET `w_score`= #{item.w_score},`w_spend_time`=#{item.w_spend_time},`w_last_time` = NOW()
+<!--WHERE `open_id`=#{item.open_id}AND `wb_id`=#{item.wb_id} AND `bw_id` =#{item.bw_id}  ;-->
+  WHERE `w_logs_id` = #{item.w_logs_id};
         </foreach>
     </update>
 
     <update id="updateBaseWordsCount" parameterType="java.util.List">
         <foreach collection="list" item="item" index="index" separator=";">
-UPDATE t_basewords SET bw_count = bw_count+1 WHERE bw_id = #{item.bw_id}
+UPDATE t_basewords SET bw_count = bw_count+1 WHERE bw_id = #{item.bw_id};
        </foreach>
     </update>
 
-    <select id="getW2W" parameterType="String" resultType="String">
-SELECT now_word FROM t_w2w WHERE raw_word = #{raw_word}
+    <select id="getW2W"  resultType="java.util.Map">
+
+SELECT now_word,raw_word FROM t_w2w WHERE raw_word
+IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
 

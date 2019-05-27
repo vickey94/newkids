@@ -20,6 +20,29 @@ AND p.p_id >= ((SELECT MAX(p_id) FROM t_papers)-(SELECT MIN(p_id) FROM t_papers)
 LIMIT #{size}
     </select>
 
+    <resultMap id="PaperEntityMap" type="gxnu.newkids.entity.PaperEntity">
+        <result column="p_id" property="pId"/>
+        <result column="paper" property="paper"/>
+        <result column="p_id" property="p_id"/>
+        <result column="p_title" property="p_title"/>
+        <result column="p_abstract" property="p_abstract"/>
+        <result column="p_source" property="p_source"/>
+        <result column="paper" property="paper"/>
+        <result column="paper_raw" property="paper_raw"/>
+        <result column="p_score" property="p_score"/>
+        <result column="p_times" property="p_times"/>
+        <result column="p_update_time" property="p_update_time"/>
+    </resultMap>
+
+    <select id="getACPapers" resultMap="PaperEntityMap">
+SELECT *
+FROM t_papers p
+WHERE p.p_id
+NOT IN (SELECT p_id FROM t_reading_logs WHERE open_id = #{open_id})
+AND p.p_id >= ((SELECT MAX(p_id) FROM t_papers)-(SELECT MIN(p_id) FROM t_papers)) * RAND() + (SELECT MIN(p_id) FROM t_papers)
+LIMIT #{size}
+    </select>
+
     <select id="getOnePaper" resultMap="PaperMap">
 SELECT *
 FROM t_papers

@@ -100,14 +100,14 @@ public class FunctionAPI {
     }
 
     //用户获取一组历史单词
-    @RequestMapping(value = {"/gethiswordgroup"}, method = RequestMethod.GET)
-    public Map getHisWordGroup(@RequestParam String open_id,String wb_id){
+   /* @RequestMapping(value = {"/gethiswordgroup"}, method = RequestMethod.GET)
+    public Map getHisWordGroup(@RequestParam String open_id,String wb_id,int size){
         logger.info("用户获取单词组,open_id is {}",open_id);
 
-        Map map =  wservice.getHisWordGroup(open_id,-1,-1,10);
+      //  Map map =  wservice.getHisWordGroup(open_id,-1,-1,10);
 
         return map;
-    }
+    }*/
 
     //用户获取一个单词详情
     @RequestMapping(value = {"/getwordciba"}, method = RequestMethod.GET)
@@ -160,7 +160,10 @@ public class FunctionAPI {
     public Map getPaperGroup(@RequestParam String open_id,@RequestParam String[] words){
         logger.info("用户获取文章组,open_id is {}",open_id);
 
-        return pservice.getPapersByWords(open_id,words);
+
+     //   return pservice.getPapersByWords(open_id,words);
+
+        return pservice.getACPapersByWords(open_id,words);
     }
 
     //用户获取一篇文章
@@ -211,6 +214,11 @@ public class FunctionAPI {
         return wservice.searchWord(w);
     }
 
+    @RequestMapping(value = {"/test"}, method = RequestMethod.GET)
+    public Map test(){
+
+        return pservice.getACPapersByWords("",null);
+    }
 
 
 }
