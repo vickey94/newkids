@@ -9,7 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    navH:0,
     p_id : -1,
 
     userInfo :null,
@@ -19,7 +19,7 @@ Page({
     p_score:0,
 
     r_start_time:0,
-
+    
     rLogs:null,
 
   },
@@ -30,8 +30,10 @@ Page({
   onLoad: function (e) {
     let that = this;
 
+  
     console.log(e.p_id)
     let p_id = e.p_id;
+   
     if(p_id == undefined){
       wx.reLaunch({
         url: '../index/index',
@@ -44,6 +46,7 @@ Page({
       p_id: p_id,
       userInfo: userInfo,
       r_start_time: new Date(),
+      navH:d.navH,
     })
 
   if(userInfo!=null){
@@ -103,6 +106,10 @@ Page({
    rl.r_score = p_score;
    rl.r_start_time = that.data.r_start_time;
    rl.r_end_time = new Date();
+
+   that.setData({
+     rLogs:rl
+   })
 
     wx.request({
      url: config.service.finishPaperUrl,

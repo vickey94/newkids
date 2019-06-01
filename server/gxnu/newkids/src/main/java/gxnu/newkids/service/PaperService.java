@@ -50,20 +50,23 @@ public class PaperService {
         //根据words 查出word相关词，难度小于3的词抛弃
         List<String> w_list = new ArrayList<>(Arrays.asList(words));
 
-
         HashMap<String,String> wordsMap = new HashMap<>();
 
+      //  long st0=System.currentTimeMillis();
         List<?> wordsList = wordDao.getW2W(w_list);
-
 
         Iterator itw = wordsList.iterator();
         while (itw.hasNext()){
             HashMap<String,String> w2w = (HashMap<String, String>) itw.next();
             wordsMap.put(w2w.get("now_word"),w2w.get("raw_word"));
         }
+       // System.out.println(wordsList.size());
+      //  long en0=System.currentTimeMillis();
+      //  System.out.println(en0-st0);
 
+   //     long st1=System.currentTimeMillis();
         //随机拿一组文章
-        List<PaperEntity> pList = paperDao.getACPapers(open_id,200);
+        List<PaperEntity> pList = paperDao.getACPapers(open_id,1000);
 
         //AC自动机 根据所有相关词，匹配出相关文章
         TreeMap<String, String> treeMap = new TreeMap<>();
@@ -71,6 +74,10 @@ public class PaperService {
             //  System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
             treeMap.put(entry.getKey(),entry.getKey());
         }
+      //  long en1=System.currentTimeMillis();
+     //   System.out.println(en1-st1);
+
+     //   long st2=System.currentTimeMillis();
 
         ACADT ACADT = new ACADT();
         //int level = w_list.size()/5;
@@ -82,6 +89,10 @@ public class PaperService {
         }*/
 
         map.put("papers",getHighAC(recommendList,10));
+   //     long en2=System.currentTimeMillis();
+
+      //  System.out.println(en2 - st2 +"ms");
+
         map.put("status", 1);
 
         return map;
@@ -155,4 +166,6 @@ public class PaperService {
 
         return map;
     }
+
+
 }

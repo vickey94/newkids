@@ -20,6 +20,7 @@
 }
 .paper{
   padding-top : 15rpx;
+  line-height: 40rpx;
 }
 
 .finishpaper{

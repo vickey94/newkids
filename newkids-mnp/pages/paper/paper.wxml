@@ -1,11 +1,11 @@
-<wxs module="filters" src="../utils.wxs"></wxs>
-<view class="container" wx:if="{{paper!=null}}" bindtouchstart="touchStart" bindtouchend="touchEnd">
+<wxs module="utils" src="../utils.wxs"></wxs>
+<view class="container" wx:if="{{paper!=null}}" bindtouchstart="touchStart" bindtouchend="touchEnd"  style='padding-top:{{navH+50}}px;'>
 
   <view class='title'>{{paper.p_title}}</view>
 
   <view class="info">source：{{paper.p_source}}</view>
   <view class="info">date：{{paper.p_update_time_f}}</view>
-  <view class="info">score：{{filters.toFix(paper.p_score)}} reading times：{{paper.p_times}}</view>
+  <view class="info">score：{{utils.toFix(paper.p_score)}} reading times：{{paper.p_times}}</view>
 
   <view class='paper'>
     <text decode="true">{{paper.paper}}</text>
@@ -14,8 +14,8 @@
   <view class='finishpaper' wx:if="{{ userInfo != null }}">
 
    <block wx:if="{{p_score == 0}}">评价并完成阅读：</block>
-   <block wx:if="{{p_score > 0}}">已阅读:</block> 
-
+ <!-- <block wx:if="{{p_score > 0}}">阅读时长：{{utils.timeDiff(rLogs.r_start_time,rLogs.r_end_time)}}分钟 评分：</block> --> 
+<block wx:if="{{p_score > 0}}">已阅读 评分：</block>
     <image class='img-star'  bindtap="setScore" data-value='1' src="{{p_score >= 1 ? '../../img/star_s.png':'../../img/star.png'}}"></image>
     <image class='img-star' bindtap="setScore" data-value='2' src="{{p_score >= 2 ? '../../img/star_s.png':'../../img/star.png'}}"></image>
     <image class='img-star' bindtap="setScore" data-value='3' src="{{p_score >= 3 ? '../../img/star_s.png':'../../img/star.png'}}"></image>

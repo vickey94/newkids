@@ -21,14 +21,12 @@ var config = {
     
     //用户获取一组历史单词
     getHisWordGroupUrl: `${host}/func/gethiswordgroup`,
-    //用户获取一个单词详情
-    getWordcibaUrl: `${host}/func/getwordciba`,
-    
+ 
     //从词霸获取单词/例句
     cibaUrl: `${host}/func/getcibaword`,
 
     //从有道获取发音
-    ydttsUrl:'https://dict.youdao.com/dictvoice',
+    ydttsUrl:`https://dict.youdao.com/dictvoice`,
     //背诵完成
     finishOneWordUrl: `${host}/func/finishoneword`,
     //背诵完成

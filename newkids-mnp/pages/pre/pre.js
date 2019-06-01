@@ -27,11 +27,8 @@ Page({
         d.pHig= 750 * res.windowHeight / res.windowWidth
         // let t = 750 / res.windowWidth * 150;
         d.pDrp = 750 / res.windowWidth;
-
         d.navH = res.statusBarHeight
-
-
-
+        
         that.getWbs();
       }
     })
@@ -155,7 +152,7 @@ Page({
     d.papers = wx.getStorageSync('papers') || []; //文章
     d.leftWords = wx.getStorageSync('leftWords') || [];
 
-    d.conf.groupNum = wx.getStorageSync('groupNum') || 10;
+    d.conf.groupNum = wx.getStorageSync('groupNum') || 20;
     d.cibaWords = wx.getStorageSync('cibaWords') || [];
 
 

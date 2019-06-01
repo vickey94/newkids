@@ -15,7 +15,7 @@ const touchStart = (e) => {
   // 使用js计时器记录时间        
   interval = setInterval(function() {
     time++;
-  }, 100);
+  }, 49);
 }
 // 触摸结束事件  ,t为设置的持续时间，单位为100ms
 const touchEnd = (e, moveX, moveY, min_t,max_t) => {

@@ -3,8 +3,7 @@
     "pages/pre/pre",
     "pages/index/index",
     "pages/word/word",
-    "pages/paper/paper",
-    "pages/search/search"
+    "pages/paper/paper"
   ],
   "window": {
     "backgroundTextStyle": "light",

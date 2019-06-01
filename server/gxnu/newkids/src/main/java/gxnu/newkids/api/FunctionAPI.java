@@ -95,7 +95,7 @@ public class FunctionAPI {
         logger.info("用户获取单词组,open_id is {}",open_id);
 
         Map map =  wservice.getWordGroup(open_id,wb_id,3,size);
-
+       // Map map =  wservice.getWordGroupDB(open_id,wb_id,3,size);
         return map;
     }
 
@@ -213,12 +213,18 @@ public class FunctionAPI {
 
         return wservice.searchWord(w);
     }
+    @RequestMapping(value = {"/ydsents"}, method = RequestMethod.GET)
+    public Map getYDSents(@RequestParam String w){
 
-    @RequestMapping(value = {"/test"}, method = RequestMethod.GET)
+        return wservice.getYDSents(w);
+    }
+
+  /*  @RequestMapping(value = {"/test"}, method = RequestMethod.GET)
     public Map test(){
 
-        return pservice.getACPapersByWords("",null);
-    }
+        return null;
+    }*/
+
 
 
 }

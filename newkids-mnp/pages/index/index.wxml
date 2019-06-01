@@ -1,18 +1,16 @@
 <wxs module="filters" src="../utils.wxs"></wxs>
 
 
-
-
-   
 <scroll-view class="box-view" style='height: {{pHig}}rpx;' scroll-into-view="view-{{nowYView}}" scroll-y scroll-with-animation="true">
-   <view class="space"> </view>
-  <view  id="view-0" class="mid" style='height: {{pHig}}rpx;' bindtouchstart="touchStart" bindtouchend="touchEnd" wx:if="{{!isOnShow}}">
+  <view class="space"> </view>
+  <view id="view-0" class="mid" style='height: {{pHig}}rpx;' bindtouchstart="touchStart" bindtouchend="touchEnd" wx:if="{{!isOnShow}}">
     <view class='mid-content mid-space'>
 
       <view bindtap='setGroupNum'>
         <view hidden="{{isSetGroupNum}}" class='group-num-title' animation="{{aniBox1}}">设置每组单词个数</view>
         <view hidden="{{!isSetGroupNum}}" class='group-num' animation="{{aniBox1}}">
-          <slider backgroundColor="white" block-size="18" activeColor="white" value="{{groupNum}}" bindchange="groupNumchange" step="5" show-value min="10" max="100" />
+        <view class='group-num-l'>  <slider  backgroundColor="white" block-size="18" activeColor="white" value="{{groupNum}}" bindchange="groupNumchange" step="10"  min="20" max="200" /></view>
+          <view class='group-num-r'> {{groupNum}}</view>
         </view>
       </view>
       <view class='box-wordbook'>
@@ -34,22 +32,27 @@
               <view>已学习:{{userNowWb.u_wb_rate}}</view>
             </view>
           </view>
-
         </view>
       </view>
     </view>
   </view>
 
   <view id="view-1" class="mid" style='height: {{pHig}}rpx;' bindtouchstart="touchStart" bindtouchend="touchEnd">
- 
-   <view class='box-search' style='margin-top:{{navH+7}}px;'>
-   <input placeholder='search' confirm-type='search'  cursor='10' bindinput="searchWord" bindconfirm="searchWordFromCiba1" value="{{sWordTxt}}" bindblur="clearSearch">
-   </input>
 
-   <block wx:for="{{sWords}}" wx:key="item.word">
-    <view class='search-res' data-value="{{item.word}}" bindtap='searchWordFromCiba2'>{{item.word}}</view>
-   </block>
-   </view>
+    <view class='box-search' style='margin-top:{{navH+7}}px;'>
+      <input placeholder='search' confirm-type='search' cursor='10' bindinput="searchWord" bindconfirm="searchWordFromCiba1" value="{{sWordTxt}}" bindblur="clearSearch">
+      </input>
+
+      <block wx:for="{{sWords}}" wx:key="{{item.word}}">
+        <view class='search-res' data-value="{{item.word}}" bindtap='searchWordFromCiba2'>
+          {{item.word}}
+          <view class="search-res-m" wx:for="{{item.parts}}" wx:key="{{item.parts}}" wx:for-item="s">{{s.part}}{{s.means}}
+          </view>
+        </view>
+      </block>
+
+
+    </view>
     <view class='mid-content '>
       <view class='mid-top mid-space'>
         <view class="userinfo">
@@ -80,7 +83,7 @@
         <view class='box-plan'>
           <view class='box-plan-child'>
             <view class="plan-num">{{leftWords.length}}</view>
-            <view class="plan-text">新单词</view>
+            <view class="plan-text">今日单词</view>
           </view>
           <view class='box-plan-child'>
             <view class="plan-num">{{today_words.length}}</view>
@@ -106,30 +109,42 @@
         <view class='box-title'>Reading</view>
 
         <scroll-view class="box-papers" scroll-into-view="" scroll-x scroll-with-animation="true" style='min-height: 235rpx;'>
-          <view wx:if="{{papers.length != 0}}">
-            <view style='display: inline-block; margin-left:15rpx;'></view>
-            <view bindtap='getOnePaper' data-value='{{item.p_id}}' class='box-paper' wx:for="{{papers}}" wx:key="item.wb_id" wx:for-index="index">
-              <view id="p_{{item.p_id}}" class="paper-title">{{item.p_title}}</view>
-              <view class="paper-info">
-                <text decode="true">评分：{{filters.toFix(item.p_score)}}&nbsp;&nbsp;&nbsp;&nbsp;阅读次数：{{item.p_times}}</text>
-              </view>
+
+          <view style='display: inline-block; margin-left:15rpx;'></view>
+          <view wx:if="{{!papersLoading}}" bindtap='getOnePaper' data-value='{{item.p_id}}' class='box-paper' wx:for="{{papers}}" wx:key="item.wb_id" wx:for-index="index">
+            <view id="p_{{item.p_id}}" class="paper-title">{{item.p_title}}</view>
+            <view class="paper-info">
+              <text decode="true">评分：{{filters.toFix(item.p_score)}}&nbsp;&nbsp;&nbsp;&nbsp;阅读次数：{{item.p_times}}</text>
             </view>
           </view>
+          <view wx:if="{{!papersLoading}}" bindtap='getPapers' class='box-paper paper-get'>
+            点击加载文章
+          </view>
 
-           <view wx:if="{{papers.length == 0 && !papersLoading}}" bindtap='getPapers' class='loadpaper'>
-           点击加载文章
-           </view>
-           
-           <view wx:if="{{papersLoading}}"  class='loadpaper'>
-            文章加载中
-           </view>
+          <view wx:if="{{papersLoading}}" class='loadpaper'>
+
+            <view class="sk-cube-grid">
+              <view class="sk-cube sk-cube1"></view>
+              <view class="sk-cube sk-cube2"></view>
+              <view class="sk-cube sk-cube3"></view>
+              <view class="sk-cube sk-cube4"></view>
+              <view class="sk-cube sk-cube5"></view>
+              <view class="sk-cube sk-cube6"></view>
+              <view class="sk-cube sk-cube7"></view>
+              <view class="sk-cube sk-cube8"></view>
+              <view class="sk-cube sk-cube9"></view>
+            </view>
+
+            <text>文章智能筛选中：</text>
+            <text>智能筛选可以自动选出和当前所背单词组相关的文章</text>
+          </view>
 
         </scroll-view>
       </view>
     </view>
 
   </view>
-<!--
+  <!--
    <view id="view-2" class="mid" style='height: {{pHig}}rpx; position: absolute;' bindtouchstart="touchStart" bindtouchend="touchEnd">
 
    <view class='box-search' style='margin-top:{{navH+7}}px;'>

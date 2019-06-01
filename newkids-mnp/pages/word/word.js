@@ -13,6 +13,7 @@ Page({
   data: {
     pHig: 0,
     pDrp: 1,
+    navH:0,
 
     nowYView: 1,
 
@@ -25,7 +26,6 @@ Page({
     isPlay_am: false,
     isPlay_sents: false,
 
-    w_score: 0,
     w_spend_time: 0,
 
     userInfo: null,
@@ -53,6 +53,7 @@ Page({
       type :  type,
       pHig: d.pHig,
       pDrp: d.pDrp,
+      navH:  d.navH,
     })
 
     //如果只是单词展示页面，则设置id为0
@@ -76,16 +77,16 @@ Page({
 
       that.getOneWord();
 
-    } else if (type == -1 ) {
-      //that.getOlinecibaWord(word, that.data.cibakey);
-      console.log(word);
+    } else if (type <= 0 ) {
+  
+     // console.log(word);
       func.getFromciba(word, that.cibaCallback);
     }
 
 
     //注册播放回调函数
     innerAudioContext.onPlay(() => {
-      // console.log('开始播放')
+     //  console.log('开始播放')
     })
 
     innerAudioContext.onEnded(() => {
@@ -155,15 +156,25 @@ Page({
     wx.setStorageSync('leftWords', d.leftWords);
     wx.setStorageSync('today_words', d.today.today_words);
 
-   
+    let nowWord = that.data.nowWord;
+    
     let w = {};
-   
-    w.bw_id = that.data.nowWord.bw_id;
-    w.open_id = d.userInfo.openId;
-    w.w_score = that.data.w_score;
-    w.w_spend_time = func.studyEnd();
-    w.wb_id = d.userData.userNowWb.wb_id;
+    let word_type = 1;
+  
+    if (nowWord.wordLogs != undefined){
+      word_type = 2;
+      w = nowWord.wordLogs;
+      w.w_score = w.w_score+1;
+      w.w_spend_time = w.w_spend_time+ func.studyEnd();
 
+    }else{
+      w.bw_id = nowWord.bw_id;
+      w.open_id = d.userInfo.openId;
+      w.w_score = 0;
+      w.w_spend_time = func.studyEnd();
+      w.wb_id = d.userData.userNowWb.wb_id;
+    }
+  
     console.log(w)
     console.log(d.userData)
     //单词背诵完成
@@ -172,13 +183,15 @@ Page({
       data: {
         open_id: d.userInfo.openId,
         wb_id: d.userData.userNowWb.wb_id,
-        word_type: 1, //单词类型，1是新词，2是历史词汇
+        word_type: word_type, //单词类型，1是新词，2是历史词汇
         wordLogs: w
             
       },
       method: 'GET',
       success(res) {},
     })
+
+    that.getOneWord();
   },
   isNotRem: function() {
     let that = this;
@@ -186,9 +199,15 @@ Page({
     d.leftWords.pop();
     d.leftWords.splice(0, 0, that.data.nowWord);
     wx.setStorageSync('leftWords', d.leftWords);
+
+    that.getOneWord();
   },
 
-
+  isMean:function(){
+    this.setData({
+      nowYView: 1
+    })
+  },
   getcibaWord: function (word) {
     word = word.toLowerCase(); //小写
    
@@ -204,51 +223,9 @@ Page({
       }
     }
 
-  },
-/*
-  getOlinecibaWord: function(word, cibakey) {
 
-    let that = this;
-    word = word.toLowerCase(); //小写
-    let cibaWord = {};
-    //请求单词
-    wx.request({
-      url: config.service.cibaUrl,
-      data: {
-        w: word,
-        key: cibakey,
-        type: "json"
-      },
-      method: 'GET',
-      success(res) {
-       
-       console.log(res.data)
-      
-        cibaWord = res.data;
- 
-        //请求例句
-        wx.request({
-          url: config.service.cibaUrl,
-          data: {
-            w: word,
-            key: cibakey,
-            type: "xml"
-          },
-          method: 'GET',
-          success(res) {
-            //console.log(res.data)
-            let xmlDoc = res.data;
-            let cibaSents = util.xml2word(xmlDoc);
-            //  console.log(cibaSents)
-            cibaWord.sents = cibaSents
-            that.setData({
-              cibaWord: cibaWord
-            });
-          },
-        })
-      },
-    })
-  },*/
+  },
+
 
   cibaCallback:function(res){
     console.log(res)
@@ -287,7 +264,8 @@ Page({
     let that = this;
     let id = e.currentTarget.dataset.value;
     let word = that.data.cibaWord;
-    let sents = that.data.cibaSents;
+    let sents = that.data.cibaWord.sents;
+
 
     let isPlay_am = false;
     let isPlay_en = false;
@@ -306,7 +284,7 @@ Page({
     } else {
       // sents[id].isPlay = true;
       isPlay_sents = true;
-      src = 'http://dict.youdao.com/dictvoice?audio=' + sents[id].orig;
+      src = config.service.ydttsUrl + '?audio=' + sents[id].orig;
     }
 
     innerAudioContext.src = src;
@@ -322,20 +300,20 @@ Page({
 
   touchStart: function (e) {
   
-    if(this.data.type == -1) return;
+    if(this.data.type <= 0) return;
     func.touchStart(e)
   },
   touchEnd: function (e) {
-    if (this.data.type == -1) return;
+    if (this.data.type <= 0) return;
     let that = this;
   
-    let moveY = 100 / d.pDrp;
-    let moveX = 60 / d.pDrp;
+    let moveY = 150 / d.pDrp;
+    let moveX = 150 / d.pDrp;
 
     let y = that.data.nowYView;
 
     //如果滑动长度大于pTop,则 up,down,left,right,
-    let act = func.touchEnd(e, moveX, moveY, 1,0)
+    let act = func.touchEnd(e, moveX, moveY, 2,0)
 
     /**
      * 如果是页面y0
@@ -353,11 +331,10 @@ Page({
         y = 1;
       } else if (act == "right") {
         that.isNotRem();
-        that.getOneWord();
-
+     
       } else if (act == "left") {
         that.isRem();
-        that.getOneWord();
+       
       }
     }
     if(y == 1){
@@ -370,6 +347,25 @@ Page({
       nowYView: y
     })
   },
+
+  backToIndex:function(){
+
+    if(this.data.type == -1){
+      wx.reLaunch({
+        url: '../pre/pre',
+      })
+    }
+
+    if(this.data.type == 0){
+      wx.navigateBack({
+        delta: 1,
+      })
+    }
+   
+  },
+
+
+  
 
   /**
    * 用户点击右上角分享

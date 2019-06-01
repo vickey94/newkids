@@ -2,9 +2,11 @@ package gxnu.newkids.dao;
 
 import gxnu.newkids.entity.Baseword;
 
+import gxnu.newkids.entity.CibaWord;
+import gxnu.newkids.entity.Means;
 import gxnu.newkids.entity.WordLogs;
 
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -30,5 +32,11 @@ public interface WordDao {
     List<Map> getW2W(List<String> raw_word);
 
     List<Map> searchWords(String word);
+
+    /***/
+    CibaWord getCibaWord(String word);
+
+    List<Means> getWordMeans(Integer w_id);
+
 
 }

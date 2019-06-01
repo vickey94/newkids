@@ -1,15 +1,20 @@
 package gxnu.newkids.service;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.DomElement;
+import com.gargoylesoftware.htmlunit.html.DomNodeList;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import gxnu.newkids.dao.WordDao;
-import gxnu.newkids.entity.Baseword;
-import gxnu.newkids.entity.BasewordWlogs;
-import gxnu.newkids.entity.WordLogs;
+import gxnu.newkids.entity.*;
 import gxnu.newkids.util.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -55,14 +60,13 @@ public class WordService {
         }
         map.put("newWords",bws);
         map.put("hisWords",hisWords);
-
         return map;
     }
 
     //获取一组历史单词
     public List<BasewordWlogs> getHisWordGroup(String open_id, String wb_id, int bw_diff, int size){
 
-        List hisWordsMap = wordDao.getHisWordGroup(open_id,wb_id,bw_diff,7,size);
+        List hisWordsMap = wordDao.getHisWordGroup(open_id,wb_id,bw_diff,5,size);
 
         List<BasewordWlogs> hisWords = new ArrayList<BasewordWlogs>();
 
@@ -187,13 +191,121 @@ public class WordService {
             String m = (String) getCibaWord(w,"json").get("res");
             wordMeans.add(m);
         }
-
         map.put("status", 1);
         map.put("res",words);
         map.put("wordMs",wordMeans);
 
         return map;
     }
+
+
+
+    //从有道获取单词
+    public void getWordsFromYoudao(String word){
+        String params = "keyfrom=dict.mresult&q="+word.toLowerCase() ;
+        //发送请求
+        String sr ;
+        sr = HttpRequest.sendGetUTF8("http://dict.youdao.com/m/search", params);
+
+        System.out.println(sr);
+
+    }
+
+
+    //获取一组单词
+    public Map getWordGroupDB(String open_id,String wb_id,int bw_diff,int size){
+        Map map = getWordGroup(open_id,wb_id,bw_diff,size);
+
+        /**历史单词**/
+        List<BasewordWlogs> hws = (List<BasewordWlogs>) map.get("hisWords");
+
+        /**新单词**/
+        List<Baseword> bws = (List<Baseword>) map.get("newWords");
+
+        List<cWord> cWords = new ArrayList<>();
+
+        for(int i = 0 ; i < bws.size() ; i++){
+            cWord cw = new cWord();
+            Baseword bw = bws.get(i);
+            CibaWord cibaWord = wordDao.getCibaWord(bw.getWord());
+            List<Means> means = wordDao.getWordMeans(cibaWord.getW_id());
+
+            cw.setBw(bw);
+            cw.setCibaWord(cibaWord);
+            cw.setMeans(means);
+            cw.setWord(bw.getWord());
+
+            cWords.add(cw);
+        }
+
+        for(int i = 0 ; i < hws.size() ; i++){
+            cWord cw = new cWord();
+            BasewordWlogs hw = hws.get(i);
+
+            Baseword hwb = new Baseword();
+            hwb.setWord(hw.getWord());
+            hwb.setBw_ack_rate(hw.getBw_ack_rate());
+            hwb.setBw_count(hw.getBw_count());
+            hwb.setBw_diff(hw.getBw_diff());
+            hwb.setBw_freq(hw.getBw_freq());
+            hwb.setBw_id(hw.getBw_id());
+            hwb.setBw_score(hw.getBw_score());
+
+            CibaWord cibaWord = wordDao.getCibaWord(hw.getWord());
+            List<Means> means = wordDao.getWordMeans(cibaWord.getW_id());
+
+            cw.setWord(hwb.getWord());
+            cw.setBw(hwb);
+            cw.setCibaWord(cibaWord);
+            cw.setMeans(means);
+            cw.setwLogs(hw.getWordLogs());
+
+            cWords.add(cw);
+        }
+
+        map.put("cWords",cWords);
+        Map rmap =  new HashMap();
+        rmap.put("cWords",cWords);
+        return rmap;
+    }
+
+    public Map getYDSents(String word){
+        Map map =  new HashMap();
+        List<Sent> sents = new ArrayList<>();
+
+        WebClient webClient = new WebClient(BrowserVersion.CHROME);
+
+        boolean check = false;
+        webClient.getOptions().setCssEnabled(check);
+        webClient.getOptions().setJavaScriptEnabled(check);
+        webClient.getCookieManager().setCookiesEnabled(check);
+
+        HtmlPage htmlPage = null;
+        try {
+            htmlPage = webClient.getPage("https://dict.youdao.com/m/"+word+"/example.html");
+            DomElement element = htmlPage.getElementById("listtrans");
+            DomNodeList<HtmlElement> els = element.getElementsByTagName("li");
+
+        for(int i = 0 ; i < els.size();i++){
+            String[] ss = els.get(i).asText().split("\n");
+           // System.out.println(ss[0]);
+           // System.out.println(ss[1]);
+            Sent sent = new Sent();
+            sent.setOrig(ss[0]);
+            sent.setTrans(ss[1]);
+            sents.add(sent);
+        }
+            webClient.close();
+        } catch (Exception e) {
+            sents = null;
+            map.put("sents",sents);
+            return map;
+        }
+
+        map.put("sents",sents);
+        return map;
+    }
+
 
 
 

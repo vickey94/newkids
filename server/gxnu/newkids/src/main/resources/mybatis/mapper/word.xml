@@ -16,6 +16,23 @@
     </resultMap>
 
 
+    <resultMap id="CibaWordMap" type="gxnu.newkids.entity.CibaWord">
+    <result column="w_id" property="w_id"/>
+    <result column="word" property="word"/>
+    <result column="w_exchange" property="w_exchange"/>
+    <result column="w_voice" property="w_voice"/>
+    <result column="w_times" property="w_times"/>
+</resultMap>
+
+    <resultMap id="MeansMap" type="gxnu.newkids.entity.Means">
+        <result column="w_id" property="w_id"/>
+        <result column="pos_id" property="pos_id"/>
+        <result column="w_means" property="w_means"/>
+        <result column="pos_name" property="pos_name"/>
+        <result column="pos_means" property="pos_means"/>
+    </resultMap>
+
+
     <select id="getWordGroup"  resultMap="BasewordMap">
 SELECT
 	bw.*
@@ -118,4 +135,14 @@ IN
     <select id="searchWords" parameterType="String" resultType="java.util.Map">
         SELECT word FROM t_words WHERE word LIKE #{word}"%"  LIMIT 10 ;
     </select>
+
+    <select id="getCibaWord" parameterType="String" resultMap="CibaWordMap">
+        SELECT * FROM t_words WHERE word =  #{word};
+    </select>
+
+    <select id="getWordMeans" parameterType="Integer" resultMap="MeansMap">
+       SELECT * FROM t_means m ,t_pos p WHERE m.w_id = #{w_id} AND m.pos_id = p.pos_id;
+    </select>
+
+
 </mapper>

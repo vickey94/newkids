@@ -34,7 +34,15 @@ LIMIT #{size}
         <result column="p_update_time" property="p_update_time"/>
     </resultMap>
 
+
     <select id="getACPapers" resultMap="PaperEntityMap">
+SELECT *
+FROM t_papers p
+LIMIT #{size}
+    </select>
+
+    <!--
+    <select id="getACPapersRandom" resultMap="PaperEntityMap">
 SELECT *
 FROM t_papers p
 WHERE p.p_id
@@ -42,6 +50,8 @@ NOT IN (SELECT p_id FROM t_reading_logs WHERE open_id = #{open_id})
 AND p.p_id >= ((SELECT MAX(p_id) FROM t_papers)-(SELECT MIN(p_id) FROM t_papers)) * RAND() + (SELECT MIN(p_id) FROM t_papers)
 LIMIT #{size}
     </select>
+-->
+
 
     <select id="getOnePaper" resultMap="PaperMap">
 SELECT *

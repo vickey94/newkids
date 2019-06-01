@@ -23,7 +23,7 @@ Page({
     wbs: [],
     userInfo: null,
 
-    groupNum: 10,
+    groupNum: 20,
 
     leftWords: [],
     papers: [],
@@ -82,10 +82,11 @@ Page({
     var that = this;
     
     that.getStudyData();
-    that.setData({
+
+   /* that.setData({
       nowYView: 1
     });
-  
+  */
     if (that.data.isOnShow){
       that.onShowAni();
 
@@ -94,7 +95,6 @@ Page({
           isOnShow: false
         })
       }, 800)
-     
     }
    
   },
@@ -142,7 +142,7 @@ Page({
     console.log("获取一组单词")
     
     let that = this;
-    that.setData({hasWord:false})
+    that.setData({ hasWord: false, papersLoading: true,})
 
     wx.request({
       url: config.service.getWordGroupUrl,
@@ -155,15 +155,20 @@ Page({
       success(res) {
         console.log(res.data);
         //插入一组新单词时，会重置单词组
-        let words = res.data.res;
 
-        d.words = words.slice(0);
-        d.leftWords = words.slice(0);
+        let words = res.data.newWords;
+        words = words.concat(res.data.hisWords); 
+        if(words.length > 0 ){
+          d.words = words.slice(0);
+          d.leftWords = words.slice(0);
+        }
+      
         that.getFromciba();
 
         that.setData({
           word: words.slice(0),
           leftWords: words.slice(0),
+          papersLoading: false,
         });
         wx.setStorageSync('words', words);
         wx.setStorageSync('leftWords', words)
@@ -182,16 +187,18 @@ Page({
 
     let that = this;
     that.setData({
+      papers:[],
       papersLoading: true
     })
 
     let open_id = d.userInfo.openId;
     let words = d.words;
-    let t_words = [];
-
-    for (let i = 0; i < words.length; i++) {
-      t_words[i] = words.word;
+    let t_words = '';
+    
+    for (let i = 0; i < words.length -1; i++) {
+      t_words += words[i].word+",";
     }
+    t_words += words[words.length - 1].word ;
 
     wx.request({
       url: config.service.getPaperGroupUrl,
@@ -203,6 +210,7 @@ Page({
       success(res) {
         console.log(res.data)
         let papers = res.data.papers;
+     
         d.papers = papers.slice(0);
         wx.setStorageSync("papers", papers);
 
@@ -317,13 +325,12 @@ Page({
       }else{
         if(d.cibaWords.length ==0)
         that.getFromciba()
+        else 
         that.setData({
-         
-            hasWord: true
-       
+          hasWord:true,
+        
         })
       }
-
     })
 
   },
@@ -335,7 +342,7 @@ Page({
   },
 
   getFromciba(){
-
+    console.log('ciba');
     let that = this;
     that.setData({
       hasWord: false,
@@ -358,9 +365,9 @@ Page({
      })
      wx.setStorageSync("cibaWord", cibaWord);
      console.log('已从ciba获取所有单词');
+     console.log(d.cibaWords);
    }
   },
-
 
   /**
    * 用户点击右上角分享
@@ -423,13 +430,13 @@ Page({
       onShowAni3: aniHidden3.export(), //box3
     })
 
-    let aniShow1 = func.getShowAni(1000);
+    let aniShow1 = func.getShowAni(600);
     aniShow1.opacity(1).step()
 
-    let aniShow2 = func.getShowAni(1000);
+    let aniShow2 = func.getShowAni(600);
     aniShow2.opacity(1).step()
 
-    let aniShow3 = func.getShowAni(1000);
+    let aniShow3 = func.getShowAni(600);
     aniShow3.opacity(1).step()
 
     setTimeout(function () {
@@ -448,7 +455,7 @@ Page({
       that.setData({
         onShowAni3: aniShow3.export(), //box1
       })
-    }, 1400)
+    }, 1200)
   },
 
 
@@ -458,7 +465,7 @@ Page({
   touchEnd: function (e) {
     let that = this;
     let d = this.data;
-    let moveY = 200 / d.pDrp;
+    let moveY = 300 / d.pDrp;
     let moveX = 300 / d.pDrp;
 
     let y = d.nowYView;
@@ -467,16 +474,19 @@ Page({
     let act = func.touchEnd(e, moveX, moveY, 3,20)
     //  console.log(act)
 
+
     //下拉进设置，上滑进主页，右划背单词，左滑看文章
 
     if (y == 1) {
       if (act == "down") {
         y = 0;
+        wx.vibrateShort({ })
       } 
     }
     if (y == 0) {
       if (act == "up") {
         y = 1;
+        wx.vibrateShort({})
       }
     }
     that.setData({
@@ -491,27 +501,34 @@ Page({
     let sWord = e.detail.value;
 
     //查词
+    if(sWord.length > 0)
     wx.request({
       url: config.service.searchwordsUrl,
       data:{
         w:sWord,
       },
       success(res){
-      //  console.log(res.data.res);
+        let sWords = res.data.res;
+        
+        let sWordMs = res.data.wordMs;
+     
+        for(var i = 0 ; i < sWordMs.length;i++){
+          sWords[i].parts = JSON.parse(sWordMs[i]).symbols[0].parts;
+        }
+        
         that.setData({
-          sWords : res.data.res
+          sWords : sWords
         })
       }
-
     })
   },
 
   searchWordFromCiba1: function (e) {
     let that = this;
     let w = e.detail.value;
-
-    if(that.data.sWords.length>0)
-     that.toWord(w);
+    that.toWord(w);
+    /*if(that.data.sWords.length>0)
+    
      else{
       wx.showToast({
         title: '查无此单词',
@@ -522,9 +539,10 @@ Page({
         sWords: [],
         sWordTxt: "",
       })
-     }
+     }*/
 
   },
+
 
   searchWordFromCiba2: function(e){
     let that = this;
@@ -536,13 +554,17 @@ Page({
   toWord:function(w){
     let that = this;
     that.clearSearch();
-
     wx.navigateTo({
-      url: '../word/word?word=' + w + '&type=-1',
+      url: '../word/word?word=' + w + '&type=0',
     })
+
   },
 
-  clearSearch:function(e){
+  searchTopFromciba(res){
+    console.log(res);
+  },
+
+  clearSearch: function (e) {
     let that = this;
     that.setData({
       sWords: [],

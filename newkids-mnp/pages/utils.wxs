@@ -4,6 +4,22 @@ var filters = {
     return value.toFixed(2)//此处2为保留两位小数
   }
 }
+
+var format = {
+   timeF:function(timestamp){
+     return getDate(timestamp).format("yyyy-MM-dd HH:mm:ss");  
+   },
+  timeDiff:function(t_start,t_end){
+    var t1 = getDate(t_start);
+    var t2 = getDate(t_end);
+
+    var diff = parseInt(t2 - t1) / 1000 / 60 ;
+    return diff.toFixed(1);
+  },
+
+}
 module.exports = {
-  toFix: filters.toFix
+  toFix: filters.toFix,
+  timeF: format.timeF,
+  timeDiff:format.timeDiff,
 }

@@ -1,36 +1,42 @@
-/* pages/word/word.wxss *//* pages/word/word.wxss */
+/* pages/word/word.wxss */
+
+/* pages/word/word.wxss */
 
 page {
   background: #3891a7;
 }
 
-
 .mid {
   width: 100%;
   position: relative;
 }
-.touch-box{
-   border-radius: 35rpx;
+
+.touch-box {
+  border-radius: 35rpx;
   background: #30889e;
 }
-.touch-tips{
-padding-top:375rpx;
-   color: rgba(255, 255, 255, 0.3);
-   font-size: 26rpx;
-   text-align: center;
+
+.touch-tips {
+  padding-top: 375rpx;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 26rpx;
+  text-align: center;
 }
+
 .mid-btm {
   position: absolute;
   text-align: center;
   color: white;
   font-size: 28rpx;
-  bottom: 0;
+  bottom: 0rpx;
 }
 
 .box-top {
-  padding: 145rpx 45rpx 15rpx 45rpx;
+  padding-left: 45rpx;
+  padding-right: 45rpx;
+  padding-bottom: 15rpx;
+ 
   font-size: 28rpx;
-  
 }
 
 .box-process {
@@ -49,7 +55,7 @@ padding-top:375rpx;
 
 .box-w2 {
   width: 700rpx;
-  height:425rpx;
+  height: 425rpx;
   margin: 0 15rpx 15rpx 25rpx;
 }
 
@@ -61,28 +67,39 @@ padding-top:375rpx;
 }
 
 .box-w3-l {
-  flex: 1;
-  text-align: left;
-  padding-left: 45rpx;
+    margin-left:  15rpx;
+  text-align: center;
+  padding-top: 3rpx;
+  width: 150rpx;
+  border-radius: 35rpx;
+  line-height: 40rpx;
+  background: #2a798d;
 }
 
 .box-w3-m {
-  flex: 1;
+   padding-top: 3rpx;
+   margin: 0 110rpx 0 110rpx;
+  width: 200rpx;
+  line-height: 40rpx;
+  background: #2a798d;
+   border-radius: 35rpx;
 }
 
 .box-w3-r {
-  flex: 1;
-  text-align: right;
-  padding-right: 45rpx;
+  padding-top: 3rpx;
+  margin-right:  15rpx;
+  width: 150rpx;
+  text-align: center; 
+  border-radius: 35rpx;
+  line-height: 40rpx;
+  background: #2a798d;
 }
 
 .box-word {
   width: 660rpx;
   font-size: 80rpx;
   margin: 0 45rpx 0 45rpx;
-
 }
-
 
 .box-yb {
   color: rgba(255, 255, 255, 1);
@@ -167,35 +184,34 @@ padding-top:375rpx;
 }
 
 .mid2 {
-  padding: 120rpx 15rpx 0 15rpx;
+  padding-left: 15rpx;
+  padding-right: 15rpx;
   font-size: 28rpx;
   color: white;
- 
 }
 
 .m2-word {
   display: flex;
   flex-flow: row wrap;
- 
-  font-size: 52rpx;
+  font-size: 54rpx;
   height: 100%;
 }
 
-.m2-box{
+.m2-box {
   padding: 15rpx 30rpx 15rpx 30rpx;
   border-radius: 35rpx;
   background: #266c7e;
   margin-bottom: 15rpx;
 }
 
-.xcxbuttom{
-  margin:20rpx 0 50rpx 275rpx;
-  font-size:30rpx;
-  font-weight:600;
-  color:#feb80a;
+.xcxbuttom {
+  margin: 20rpx 0 50rpx 275rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #feb80a;
   width: 200rpx;
   text-align: center;
-   border-radius: 35rpx;
-   line-height: 50rpx;
-   background: white;
+  border-radius: 35rpx;
+  line-height: 50rpx;
+  background: white;
 }

@@ -1,8 +1,7 @@
 <scroll-view class="box-view" style='height: {{pHig}}rpx;' scroll-into-view="view-{{nowYView}}" scroll-y scroll-with-animation="true">
 
-  <view id="view-0" class="mid" style='height: {{pHig}}rpx;' wx:if="{{type != -1 }}" bindtouchstart="touchStart" bindtouchend="touchEnd">
-    <view class='box-top'>
-
+  <view id="view-0" class="mid" style='height: {{pHig}}rpx;' wx:if="{{type > 0 }}" bindlongpress="playAudio" data-value='en' bindtouchstart="touchStart" bindtouchend="touchEnd">
+    <view class='box-top' style='padding-top:{{navH+50}}px;'>
       <view wx:if="{{wb_name!=''}}" class='box-process'>
         <progress percent="{{percent}}" activeColor="white" backgroundColor="#266c7e" active-mode="forwards" />
       </view>
@@ -41,14 +40,14 @@
       </view>-->
 
       <view class='box-w3'>
-        <view class='box-w3-l'>
+        <view class='box-w3-l' bindtap='isRem'>
           <text decode="true">&lt;认识</text>
         </view>
         <view class='box-w3-m'>
-          <text decode="true">查看释义</text>
+          <text decode="true" bindtap='isMean'>查看释义</text>
         </view>
-        <view class='box-w3-r'>
-          <text decode="true">不认识&gt;</text>
+        <view class='box-w3-r' bindtap='isNotRem'>
+          <text decode="true" >不认识&gt;</text>
         </view>
       </view>
     </view>
@@ -57,11 +56,10 @@
 
   <view id="view-1" style='height: {{pHig}}rpx;'>
 
-    <view class='mid2' bindtouchstart="touchStart" bindtouchend="touchEnd">
+    <view class='mid2' bindtouchstart="touchStart" bindtouchend="touchEnd"  style='padding-top:{{navH+50}}px;'>
       <view class='m2-box'>
         <view class='m2-word'>
-          <view style='word-break:break-all;'>{{cibaWord.word_name}}</view>
-
+          <view style='word-break:break-all; ' >{{cibaWord.word_name}}</view>
           <view class="sk-wave" style='margin-top:15rpx;margin-left:25rpx;' wx:if="{{isPlay_en||isPlay_am||isPlay_sents}}">
             <view class="sk-rect sk-rect1"></view>
             <view class="sk-rect sk-rect2"></view>
@@ -82,7 +80,7 @@
           <text wx:for="{{s.means}}" wx:key="m" wx:for-item="m">{{m}}</text>
         </view>
       </view>
-      <view class='m2-box' style='margin-top:15rpx;'>
+      <view class='m2-box' style='margin-top:15rpx;' wx:if="{{cibaWord.exchange.word_pl!=''||cibaWord.exchange.word_third!=''||cibaWord.exchange.word_er!=''||cibaWord.exchange.word_ing!=''||cibaWord.exchange.word_past!=''||cibaWord.exchange.word_done!=''}}">
         <view>[其他]</view>
         <text wx:if="{{cibaWord.exchange.word_pl!=''}}">复数：{{cibaWord.exchange.word_pl}}\n</text>
         <text wx:if="{{cibaWord.exchange.word_third!=''}}">第三人称单数：{{cibaWord.exchange.word_third}}\n</text>
@@ -97,16 +95,14 @@
           <view bindtap="playAudio" data-value='{{index}}' style='margin-top:15rpx;'>
             <text>{{sent.orig}}</text>
           </view>
-          <view style='margin-buttom:15rpx;'>
+          <view style='margin-top:10rpx;margin-buttom:20rpx; color:#a5b7bb;'>
             <text>{{sent.trans}}</text>
           </view>
         </view>
       </view>
 
-        <view class='xcxbuttom' wx:if="{{type == -1 }}">
-     <navigator  url="../pre/pre"
-    open-type="redirect"
-    hover-class="other-navigator-hover" >查看小程序</navigator>  </view>
+        <view class='xcxbuttom' bindtap='backToIndex' wx:if="{{type<=0}}"  >
+     返回小程序</view>
   </view>
 
     <view style='width:100%;height:50rpx;'></view>

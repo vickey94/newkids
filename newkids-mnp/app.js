@@ -2,8 +2,6 @@
 App({
   onLaunch: function() {
 
-    
-
   },
   globalData: {
     pHig:0,
@@ -28,7 +26,7 @@ App({
 
     conf: {
       cibakey: null, //词霸key
-      groupNum: 10, //用户设置每次获取多少个单词  //本地
+      groupNum: 20, //用户设置每次获取多少个单词  //本地
    
     },
     today: {
